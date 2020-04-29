@@ -131,3 +131,6 @@ dmypy.json
 ## ETL type artifacts not subject to version control
 /00_inputdata
 *.sql
+
+# Temp files with extracted data
+/tmp
