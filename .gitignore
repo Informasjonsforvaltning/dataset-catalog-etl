@@ -134,3 +134,6 @@ dmypy.json
 
 # Temp files with extracted data
 /tmp
+
+#IDEA
+.idea
