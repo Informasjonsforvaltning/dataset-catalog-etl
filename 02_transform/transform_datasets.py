@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from extract_methods import entityTitle, entityDescription
+from extract_methods import entityTitle, entityDescription, entityLandingPage
 
 f = open('../tmp/extract/data.json')
 datasets = json.load(f)["nid"]
@@ -13,6 +13,7 @@ for dataset_index in datasets:
 
     fdk_dataset['title'] = entityTitle(ds_id)
     fdk_dataset['description'] = entityDescription(ds_id)
+    fdk_dataset['landingPage'] = entityLandingPage(ds_id)
 
     # Save dataset to file
     with open('../tmp/transform/dataset/' + ds_id + '.json', 'w') as outfile:
