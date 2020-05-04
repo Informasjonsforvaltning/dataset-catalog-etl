@@ -16,4 +16,4 @@ for dataset_index in datasets:
 
     # Save dataset to file
     with open('../tmp/transform/dataset/' + ds_id + '.json', 'w') as outfile:
-        json.dump(fdk_dataset, outfile)
+        json.dump(fdk_dataset, outfile, ensure_ascii=False)
