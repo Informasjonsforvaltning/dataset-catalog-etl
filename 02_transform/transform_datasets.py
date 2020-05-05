@@ -6,7 +6,8 @@ from extract_methods import (
     entityDescription,
     entityLandingPage,
     dateFromTimestamp,
-    datasetDistributions
+    datasetDistributions,
+    datasetAccessRights
 )
 
 f = open('../tmp/extract/data.json')
@@ -23,6 +24,7 @@ for dataset_index in datasets['nid']:
     fdk_dataset['issued'] = dateFromTimestamp(datasets['created'][dataset_index])
     fdk_dataset['modified'] = dateFromTimestamp(datasets['changed'][dataset_index])
     fdk_dataset['distribution'] = datasetDistributions(ds_id)
+    fdk_dataset['accessRights'] = datasetAccessRights(ds_id)
 
     # Save dataset to file
     with open('../tmp/transform/dataset/' + ds_id + '.json', 'w') as outfile:
