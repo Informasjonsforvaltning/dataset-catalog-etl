@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from extract_methods import entityTitle, entityDescription, entityLandingPage, dateFromTimestamp, publishedStatus
+from extract_methods import entityTitle, entityDescription, entityLandingPage, dateFromTimestamp
 
 f = open('../tmp/extract/data.json')
 datasets = json.load(f)
@@ -17,7 +17,7 @@ for dataset_index in datasets['nid']:
     fdk_dataset['issued'] = dateFromTimestamp(datasets['created'][dataset_index])
     fdk_dataset['modified'] = dateFromTimestamp(datasets['changed'][dataset_index])
 
-    fdk_dataset['registrationStatus'] = publishedStatus(datasets['status'][dataset_index])
+    fdk_dataset['registrationStatus'] = "PUBLISH"
 
     # Save dataset to file
     with open('../tmp/transform/dataset/' + ds_id + '.json', 'w') as outfile:

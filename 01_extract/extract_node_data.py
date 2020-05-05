@@ -12,10 +12,12 @@ dbConnection    = sqlEngine.connect()
 for node_type in node_types:
     Path("../tmp/extract").mkdir(parents=True, exist_ok=True)
     dataset_frame = pd.read_sql("""
-        SELECT nid, created, changed, status
+        SELECT nid, created, changed
         FROM
         drupal_datanorge.node
         WHERE
+        status = '1'
+        AND
         type = '""" + node_type + "'", dbConnection)
     
     pd.set_option('display.expand_frame_repr', False)
