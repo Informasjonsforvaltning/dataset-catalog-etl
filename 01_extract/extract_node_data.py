@@ -12,7 +12,7 @@ dbConnection    = sqlEngine.connect()
 for node_type in node_types:
     Path("../tmp/extract").mkdir(parents=True, exist_ok=True)
     dataset_frame = pd.read_sql("""
-        SELECT nid, created, changed
+        SELECT nid, created, changed, status
         FROM
         drupal_datanorge.node
         WHERE
