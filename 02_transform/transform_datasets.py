@@ -11,7 +11,8 @@ from extract_methods import (
     entityTemporal,
     datasetTheme,
     datasetUpdateFrequency,
-    datasetLanguage
+    datasetLanguage,
+    datasetSpatial
 )
 
 f = open('../tmp/extract/data.json')
@@ -33,6 +34,7 @@ for dataset_index in datasets['nid']:
     fdk_dataset['theme'] = datasetTheme(ds_id)
     fdk_dataset['accrualPeriodicity'] = datasetUpdateFrequency(ds_id)
     fdk_dataset['language'] = datasetLanguage(ds_id)
+    fdk_dataset['spatial'] = datasetSpatial(ds_id)
 
     fdk_dataset['registrationStatus'] = "PUBLISH"
 
