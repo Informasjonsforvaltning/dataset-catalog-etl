@@ -9,3 +9,4 @@ from .timestamp import dateFromTimestamp
 from .distribution import datasetDistributions
 from .language import datasetLanguage
 from .frequency import datasetUpdateFrequency
+from .contactpoint import entityContactPoint
