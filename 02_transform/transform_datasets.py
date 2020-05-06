@@ -7,7 +7,8 @@ from extract_methods import (
     entityLandingPage,
     dateFromTimestamp,
     datasetDistributions,
-    datasetAccessRights
+    datasetAccessRights,
+    datasetLanguage
 )
 
 f = open('../tmp/extract/data.json')
@@ -25,6 +26,7 @@ for dataset_index in datasets['nid']:
     fdk_dataset['modified'] = dateFromTimestamp(datasets['changed'][dataset_index])
     fdk_dataset['distribution'] = datasetDistributions(ds_id)
     fdk_dataset['accessRights'] = datasetAccessRights(ds_id)
+    fdk_dataset['language'] = datasetLanguage(ds_id)
 
     fdk_dataset['registrationStatus'] = "PUBLISH"
 
