@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from extract_methods import (
+    datasetCatalog,
     entityTitle,
     entityDescription,
     entityLandingPage,
@@ -35,6 +36,7 @@ for dataset_index in datasets['nid']:
     fdk_dataset['accrualPeriodicity'] = datasetUpdateFrequency(ds_id)
     fdk_dataset['language'] = datasetLanguage(ds_id)
     fdk_dataset['spatial'] = datasetSpatial(ds_id)
+    fdk_dataset['catalogId'] = datasetCatalog(ds_id)
 
     fdk_dataset['registrationStatus'] = "PUBLISH"
 
