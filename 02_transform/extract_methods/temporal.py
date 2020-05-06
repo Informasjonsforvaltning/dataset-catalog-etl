@@ -17,4 +17,4 @@ def entityTemporal(entity_id):
 
     temporal.append(timestamp)
 
-    return temporal
+    return temporal if len(timestamp) > 0 else None
