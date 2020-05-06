@@ -13,7 +13,8 @@ from extract_methods import (
     datasetTheme,
     datasetUpdateFrequency,
     datasetLanguage,
-    datasetSpatial
+    datasetSpatial,
+    datasetKeywords
 )
 
 f = open('../tmp/extract/data.json')
@@ -36,6 +37,7 @@ for dataset_index in datasets['nid']:
     fdk_dataset['accrualPeriodicity'] = datasetUpdateFrequency(ds_id)
     fdk_dataset['language'] = datasetLanguage(ds_id)
     fdk_dataset['spatial'] = datasetSpatial(ds_id)
+    fdk_dataset['keyword'] = datasetKeywords(ds_id)
     fdk_dataset['catalogId'] = datasetCatalog(ds_id)
 
     fdk_dataset['registrationStatus'] = "PUBLISH"
