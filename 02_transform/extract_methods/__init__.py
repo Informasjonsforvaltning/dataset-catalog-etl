@@ -7,3 +7,5 @@ from .access_rights import datasetAccessRights
 from .temporal import entityTemporal
 from .timestamp import dateFromTimestamp
 from .distribution import datasetDistributions
+from .language import datasetLanguage
+from .frequency import datasetUpdateFrequency
