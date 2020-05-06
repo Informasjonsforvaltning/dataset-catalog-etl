@@ -1,3 +1,4 @@
+from .catalog_id import datasetCatalog
 from .title import entityTitle
 from .theme import datasetTheme
 from .description import entityDescription
