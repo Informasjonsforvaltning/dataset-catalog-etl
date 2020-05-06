@@ -1,4 +1,5 @@
 from .title import entityTitle
+from .theme import datasetTheme
 from .description import entityDescription
 from .landing_page import entityLandingPage
 from .timestamp import dateFromTimestamp, dateFromTemporalTimestamp
