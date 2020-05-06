@@ -18,10 +18,11 @@ def datasetDistributions(entity_id):
             distribution['accessURL'] = distributionAccessUrl(dist_id)
             distribution['license'] = distributionLicense(dist_id)
             distribution['format'] = distributionFormat(dist_id)
+            distribution['conformsTo'] = distributionConformsTo(dist_id)
 
             distributions.append(distribution)
     
-    return distributions
+    return distributions if len(distributions) > 0 else None
 
 def distributionTitle(entity_id):
     title = {}
@@ -38,7 +39,7 @@ def distributionTitle(entity_id):
             if(isEnOrNb(lang)):
                 title[lang] = titles[index]
     
-    return title
+    return title if len(title) > 0 else None
 
 def distributionDescription(entity_id):
     description = {}
@@ -55,7 +56,7 @@ def distributionDescription(entity_id):
             if(isEnOrNb(lang)):
                 description[lang] = descriptions[index]
     
-    return description
+    return description if len(description) > 0 else None
 
 def distributionAccessUrl(entity_id):
     urls = []
@@ -65,7 +66,7 @@ def distributionAccessUrl(entity_id):
     for index in field['field_access_url_url']:
         urls.append(field['field_access_url_url'][index])
 
-    return urls
+    return urls if len(urls) > 0 else None
 
 def distributionDownloadUrl(entity_id):
     urls = []
@@ -75,7 +76,7 @@ def distributionDownloadUrl(entity_id):
     for index in field['field_download_url_url']:
         urls.append(field['field_download_url_url'][index])
 
-    return urls
+    return urls if len(urls) > 0 else None
 
 def distributionLicense(entity_id):
     value = None
@@ -104,6 +105,30 @@ def distributionFormat(entity_id):
             format_file = open('../tmp/extract/format/' + format_id + '/field_data_field_key.json')
             format_field = json.load(format_file)
 
-            formats.append(format_field['field_key_value'].get('0'))
+            format_value = format_field['field_key_value'].get('0')
 
-    return formats
+            if format_value is not None:
+                formats.append(format_value)
+            else:
+                format_dcat_file = open('../tmp/extract/format/' + format_id + '/field_data_field_dcat_key.json')
+                format_dcat_field = json.load(format_dcat_file)
+
+                format_dcat_value = format_dcat_field['field_dcat_key_value'].get('0')
+
+                if format_dcat_value is not None:
+                    formats.append(format_dcat_value)
+
+    return formats if len(formats) > 0 else None
+
+def distributionConformsTo(entity_id):
+    conformsToList = []
+    json_file = open('../tmp/extract/distribution/' + entity_id + '/field_data_field_web_service.json')
+    field = json.load(json_file)
+
+    for index in field['field_web_service_url']:
+        conformsTo = {}
+        conformsTo['uri'] = field['field_web_service_url'][index]
+
+        conformsToList.append(conformsTo)
+
+    return conformsToList if len(conformsToList) > 0 else None
