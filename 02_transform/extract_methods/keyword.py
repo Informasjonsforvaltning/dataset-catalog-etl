@@ -24,4 +24,4 @@ def datasetKeywords(entity_id):
                 value['nb'] = term_data['name'][value_index]
                 keywords.append(value)
 
-    return keywords
+    return keywords if len(keywords) > 0 else None

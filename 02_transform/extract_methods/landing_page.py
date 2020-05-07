@@ -8,4 +8,4 @@ def entityLandingPage(entity_id):
     for index in field['field_landing_page_url']:
         landingpage.append(field['field_landing_page_url'][index])
 
-    return landingpage
+    return landingpage if len(landingpage) > 0 else None

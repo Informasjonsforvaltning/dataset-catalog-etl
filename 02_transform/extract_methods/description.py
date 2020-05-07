@@ -16,7 +16,7 @@ def entityDescription(entity_id):
             if(isEnOrNb(lang)):
                 description[lang] = stripHtml(description_field['field_data_description_value'][index])
     
-    return description
+    return description if len(description) > 0 else None
 
 def stripHtml(value):
     tag_re = re.compile(r'(<!--.*?-->|<[^>]*>)')

@@ -15,4 +15,4 @@ def entityTitle(entity_id):
             if(isEnOrNb(lang)):
                 title[lang] = title_field['title_field_value'][index]
     
-    return title
+    return title if len(title) > 0 else None

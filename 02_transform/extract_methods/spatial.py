@@ -17,4 +17,4 @@ def datasetSpatial(entity_id):
                 value['uri'] = geo_field['field_uri_value'][geo_index]
                 spatial.append(value)
 
-    return spatial
+    return spatial if len(spatial) > 0 else None

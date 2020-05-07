@@ -12,7 +12,7 @@ def datasetAccessRights(entity_id):
 
         access_rights = {}
         access_rights['uri'] = value_field['field_key_value'].get('0')
-        return access_rights
+        return access_rights if access_rights['uri'] is not None else None
 
     else:
         return None
