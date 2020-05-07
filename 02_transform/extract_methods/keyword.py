@@ -1,4 +1,5 @@
 import json
+from .utils import stripHtml
 
 def indexOfValue(value, values):
     for index in values:
@@ -21,7 +22,7 @@ def datasetKeywords(entity_id):
 
         if value_index is not None:
                 value = {}
-                value['nb'] = term_data['name'][value_index]
+                value['nb'] = stripHtml(term_data['name'][value_index])
                 keywords.append(value)
 
     return keywords if len(keywords) > 0 else None

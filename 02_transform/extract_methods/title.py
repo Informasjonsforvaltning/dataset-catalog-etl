@@ -1,5 +1,5 @@
 import json
-from .utils import isEnOrNb
+from .utils import isEnOrNb, stripHtml
 
 def entityTitle(entity_id):
     title = {}
@@ -8,11 +8,11 @@ def entityTitle(entity_id):
 
     
     if len(title_field['title_field_value']) == 1 and not isEnOrNb(title_field['language']['0']):
-        description['nb'] = title_field['title_field_value']['0']
+        title['nb'] = title_field['title_field_value']['0']
     else:
         for index in title_field['title_field_value']:
             lang = title_field['language'][index]
             if(isEnOrNb(lang)):
-                title[lang] = title_field['title_field_value'][index]
+                title[lang] = stripHtml(title_field['title_field_value'][index])
     
     return title if len(title) > 0 else None

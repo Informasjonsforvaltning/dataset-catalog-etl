@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from .description import entityDescription
-from .utils import isEnOrNb
+from .utils import isEnOrNb, stripHtml
 
 def datasetDistributions(entity_id):
     distributions = []
@@ -37,7 +37,7 @@ def distributionTitle(entity_id):
         for index in titles:
             lang = title_field['language'][index]
             if(isEnOrNb(lang)):
-                title[lang] = titles[index]
+                title[lang] = stripHtml(titles[index])
     
     return title if len(title) > 0 else None
 
@@ -49,12 +49,12 @@ def distributionDescription(entity_id):
     descriptions = description_field['field_description_value']
 
     if len(descriptions) == 1 and not isEnOrNb(description_field['language']['0']):
-        description['nb'] = descriptions['0']
+        description['nb'] = stripHtml(descriptions['0'])
     else:
         for index in descriptions:
             lang = description_field['language'][index]
             if(isEnOrNb(lang)):
-                description[lang] = descriptions[index]
+                description[lang] = stripHtml(descriptions[index])
     
     return description if len(description) > 0 else None
 

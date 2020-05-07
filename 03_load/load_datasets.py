@@ -1,5 +1,6 @@
 import json
 import urllib.request
+import time
 
 token_file = open('../tmp/token.json')
 token = json.load(token_file)['admin']
@@ -13,14 +14,14 @@ for dataset_index in datasets['nid']:
     body_file = open('../tmp/transform/dataset/' + ds_id + '.json')
     dataset_body = json.load(body_file)
 
-    uploadUrl = 'http://localhost:8114/catalogs/' + dataset_body['catalogId'] + '/datasets/admin'
-
+    uploadUrl = 'https://registrering.staging.fellesdatakatalog.digdir.no/catalogs/' + dataset_body['catalogId'] + '/datasets/admin'
     data = json.dumps(dataset_body).encode('utf8')
 
-    req = urllib.request.Request(uploadUrl, data, headers={'content-type': 'application/json', 'Authorization': 'Bearer ' + token}, method='POST')
+    req = urllib.request.Request(uploadUrl, data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token}, method='POST')
             
     try:
         rsp = urllib.request.urlopen(req)
         print(f'{rsp.code}' + ': ' + dataset_body['catalogId'])
+
     except urllib.error.HTTPError as err:
-        print(f'{err.code}' + ': ' + dataset_body['catalogId'])
+        print(f'{err.code}' + ': ' + str(ds_id))

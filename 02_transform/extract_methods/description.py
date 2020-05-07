@@ -1,6 +1,5 @@
 import json
-import re
-from .utils import isEnOrNb
+from .utils import isEnOrNb, stripHtml
 
 def entityDescription(entity_id):
     description = {}
@@ -18,9 +17,3 @@ def entityDescription(entity_id):
     
     return description if len(description) > 0 else None
 
-def stripHtml(value):
-    tag_re = re.compile(r'(<!--.*?-->|<[^>]*>)')
-    return removeExtraSpaces(tag_re.sub(' ', value.replace('&nbsp;', ' ')))
-
-def removeExtraSpaces(value):
-    return re.sub(' +', ' ', value.strip())
