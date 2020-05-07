@@ -12,4 +12,5 @@ from .distribution import datasetDistributions
 from .spatial import datasetSpatial
 from .language import datasetLanguage
 from .frequency import datasetUpdateFrequency
+from .contactpoint import entityContactPoint
 from .keyword import datasetKeywords
