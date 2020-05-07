@@ -17,8 +17,9 @@ def entityContactPoint(entity_id, washlist):
     elif email in washlist['blackListNameByEmail']:
         contactpoint['email'] = email
 
-    contactpoints.append(contactpoint)
-    return contactpoints
+    if len(contactpoint) > 0:
+        contactpoints.append(contactpoint)
+    return contactpoints if len(contactpoints) > 0 else None
 
 def contactPointEmail(entity_id):
     email_file = open('../tmp/extract/data/' + entity_id + '/field_data_field_data_contact_mail.json')
