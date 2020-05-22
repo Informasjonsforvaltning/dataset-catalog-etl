@@ -43,7 +43,7 @@ for dataset_index in datasets['nid']:
     fdk_dataset['spatial'] = datasetSpatial(ds_id)
     fdk_dataset['keyword'] = datasetKeywords(ds_id)
     fdk_dataset['catalogId'] = datasetCatalog(ds_id)
-
+    fdk_dataset['originalUri'] = 'https://data.norge.no/node/' + ds_id
     fdk_dataset['registrationStatus'] = "PUBLISH"
 
     # Save dataset to file

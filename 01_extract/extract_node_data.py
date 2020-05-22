@@ -6,7 +6,7 @@ import pandas as pd
 from pathlib import Path
 import json
  
-sqlEngine       = create_engine('mysql+pymysql://valosnah:password@127.0.0.1', pool_recycle=3600)
+sqlEngine       = create_engine('mysql+pymysql://user:password@127.0.0.1', pool_recycle=3600)
 dbConnection    = sqlEngine.connect()
  
 for node_type in node_types:

@@ -21,7 +21,7 @@ for dataset_index in datasets['nid']:
             
     try:
         rsp = urllib.request.urlopen(req)
-        print(f'{rsp.code}' + ': ' + dataset_body['catalogId'])
+        print(f'{rsp.code}' + ': ' + dataset_body['catalogId'] + ' | ds_id: ' + ds_id)
 
     except urllib.error.HTTPError as err:
         print(f'{err.code}' + ': ' + str(ds_id))

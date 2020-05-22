@@ -8,7 +8,7 @@ def isEnOrNb(language):
 
 def stripHtml(value):
     tag_re = re.compile(r'(<!--.*?-->|<[^>]*>)')
-    return removeExtraSpaces(tag_re.sub(' ', value.replace('&nbsp;', ' ').replace('&quot;', ' ').replace('&gt;', ' ').replace('&ldquo;', ' ').replace('&rdquo;', ' ').replace('(', '{').replace(')', '}')))
+    return removeExtraSpaces(tag_re.sub(' ', value.replace('&nbsp;', ' ').replace('&quot;', ' ').replace('&gt;', ' ').replace('&ldquo;', ' ').replace('&rdquo;', ' ')))
 
 def removeExtraSpaces(value):
     return re.sub(' +', ' ', value.strip())
