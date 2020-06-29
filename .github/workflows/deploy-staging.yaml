@@ -1,0 +1,56 @@
+name: Build and deploy to staging when pull request is created
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    name: Deploy to staging environment
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup pyhton environment
+      uses: actions/setup-python@v1
+      with:
+          python-version: 3.7
+
+    - name: Setup gcloud CLI
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '270.0.0'
+        service_account_email: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_EMAIL }}
+        service_account_key: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_KEY }}
+
+    - name: Publish docker image to Google Cloud
+      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-etl
+
+    - name: Apply Helm template
+      uses: stefanprodan/kube-tools@v1
+      with:
+        helm: 2.14.3
+        command: |
+          helm init --client-only
+          helm repo add dataset-etl https://informasjonsforvaltning.github.io/dataset-etl/
+          helm fetch --untar --untardir ./helm dataset-etl/dataset-etl
+          helm template -f ${{ steps.write_file.outputs.filePath }} ./helm/dataset-etl/ > ./kubectlapply.yaml
+          chmod o+w ./kubectlapply.yaml
+          cat kubectlapply.yaml
+
+    - name: Get kubeconfig file from GKE
+      uses: machine-learning-apps/gke-kubeconfig@master
+      with:
+        application_credentials: ${{ secrets.DIGDIR_FDK_DEV_AUTODEPLOY }}
+        project_id: digdir-fdk-dev
+        location_zone: europe-north1-a
+        cluster_name: digdir-fdk-dev
+
+    - name: Deploy to staging
+      uses: docker://bitnami/kubectl:latest
+      env:
+        KUBECONFIG: '/github/workspace/.kube/config'
+      with:
+        args: "apply -f ./kubectlapply.yaml --force"
