@@ -6,4 +6,4 @@ RUN python -m pip install --upgrade pip
 
 EXPOSE 8080
 
-ENTRYPOINT ["echo", "Running... "]
+ENTRYPOINT exec ["echo", "Running... "]
