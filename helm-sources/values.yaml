@@ -5,3 +5,4 @@
 ##dataset-etl
 FDK_DATASET_ETL_MEMORY: "1000Mi"
 NAMESPACE: staging
+DATASET_ETL_IMAGE: eu.gcr.io/digdir-fdk-infra/dataset-etl:latest

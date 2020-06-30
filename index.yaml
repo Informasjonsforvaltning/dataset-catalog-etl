@@ -3,12 +3,12 @@ entries:
   dataset-etl:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-06-30T08:46:56.54411158+02:00"
+    created: "2020-06-30T08:51:28.964938902+02:00"
     description: Config for Dataset etl
-    digest: 3da498221c9183368270cfe5f03d9282866e41d75ccb41886d5fed97fc53e48b
+    digest: da4573e6b25457c16b3dd5627996416b27a653ce47d4680e705fb186fe9e206c
     home: https://github.com/Informasjonsforvaltning/dataset-etl
     name: dataset-etl
     urls:
     - https://informasjonsforvaltning.github.io/dataset-etl/dataset-etl-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-30T08:46:56.543198937+02:00"
+generated: "2020-06-30T08:51:28.964252992+02:00"
