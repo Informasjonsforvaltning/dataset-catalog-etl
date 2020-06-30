@@ -18,7 +18,7 @@ jobs:
       uses: timheuer/base64-to-file@v1
       with:
         fileName: 'secret.yaml'
-        encodedString: ${{ secrets.DIGDIR_FDK_DATASET_ETL }}
+        encodedString: ${{ secrets.DIGDIR_FDK_DATASET_ETL_STAGING }}
 
     - name: Setup pyhton environment
       uses: actions/setup-python@v1
