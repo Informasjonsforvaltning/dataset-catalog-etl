@@ -15,11 +15,11 @@ args = parser.parse_args()
 
 
 datasetsGraph = None
-with open(args.outputdirectory + "fuseki_datasets.ttl") as fuseki_file:
+with open("fuseki_datasets.ttl") as fuseki_file:
     datasetsGraph = Graph().parse(data=fuseki_file.read(), format='turtle')
-metabaseURI = 'https://datasets.staging.fellesdatakatalog.digdir.no/catalogs/'
+metabaseURI = 'https://datasets.staging.fellesdatakatalog.digdir.no/datasets/'
 catalogrecordRef = URIRef("http://www.w3.org/ns/dcat#CatalogRecord")
-fusekibaseURI = 'http://fuseki:8080/fuseki/dataset-meta'
+fusekibaseURI = 'http://fdk-fuseki-service:8080/fuseki/dataset-meta'
 
 inputfileName = args.outputdirectory + "datasets_metadata.json"
 
@@ -43,9 +43,11 @@ with open(inputfileName) as json_file:
             if primaryTopicURI and primaryTopicURI.toPython() == elasticURI:
                 g = Graph()
                 resourceURI = URIRef(metabaseURI + elasticID)
+                partOfURI = datasetsGraph.value(recordURI, DCTERMS.isPartOf)
                 g.resource(resourceURI)
                 g.add((resourceURI, RDF.type, catalogrecordRef))
                 g.add((resourceURI, DCTERMS.identifier, Literal(elasticID)))
+                g.add((resourceURI, DCTERMS.isPartOf, partOfURI))
                 g.add((resourceURI, DCTERMS.issued, Literal(elasticFirst, datatype=XSD.dateTime)))
                 for date in elasticChanged:
                     g.add((resourceURI, DCTERMS.modified, Literal(date, datatype=XSD.dateTime)))
