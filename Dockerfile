@@ -5,3 +5,5 @@ COPY /files /etl
 RUN python -m pip install --upgrade pip
 
 EXPOSE 8080
+
+ENTRYPOINT ["echo", "Running... "]
