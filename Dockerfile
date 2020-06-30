@@ -8,5 +8,3 @@ RUN python -m pip install --upgrade pip
 EXPOSE 8080
 
 CMD ["echo", "Running... "]
-
-COPY . .
