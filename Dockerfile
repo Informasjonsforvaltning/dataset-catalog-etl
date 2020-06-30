@@ -1,10 +1,15 @@
 FROM python:3
 
 RUN mkdir /etl
+RUN mkdir -p /usr/src/app
 COPY /files /etl
-WORKDIR /etl
+
+COPY app /usr/src/app/
+WORKDIR /usr/src/app/
+
 RUN python -m pip install --upgrade pip
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
 
-CMD ["echo", "Running... "]
+CMD cd src && gunicorn wsgi:app --config=config.py
