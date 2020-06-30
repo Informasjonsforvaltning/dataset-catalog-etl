@@ -13,6 +13,13 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: Create yaml file from secret
+      id: write_file
+      uses: timheuer/base64-to-file@v1
+      with:
+        fileName: 'secret.yaml'
+        encodedString: ${{ secrets.DIGDIR_FDK_DATASET_ETL }}
+
     - name: Setup pyhton environment
       uses: actions/setup-python@v1
       with:
