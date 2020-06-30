@@ -13,13 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Create yaml file from secret
-      id: write_file
-      uses: timheuer/base64-to-file@v1
-      with:
-        fileName: 'secret.yaml'
-        encodedString: ${{ secrets.DIGDIR_FDK_DATASET_ETL_STAGING }}
-
     - name: Setup pyhton environment
       uses: actions/setup-python@v1
       with:
@@ -35,7 +28,7 @@ jobs:
     - run: gcloud auth configure-docker
 
     - name: Build Docker image with GitHub commit sha tag and staging tag
-      run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-etl:$GITHUB_SHA
+      run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-etl:latest
 
     - name: Publish docker image to Google Cloud
       run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-etl
@@ -48,7 +41,7 @@ jobs:
           helm init --client-only
           helm repo add dataset-etl https://informasjonsforvaltning.github.io/dataset-etl/
           helm fetch --untar --untardir ./helm dataset-etl/dataset-etl
-          helm template -f ${{ steps.write_file.outputs.filePath }} ./helm/dataset-etl/ > ./kubectlapply.yaml
+          helm template ./helm/dataset-etl/ > ./kubectlapply.yaml
           chmod o+w ./kubectlapply.yaml
           cat kubectlapply.yaml
 

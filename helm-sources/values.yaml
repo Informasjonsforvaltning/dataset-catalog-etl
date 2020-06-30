@@ -4,3 +4,4 @@
 
 ##dataset-etl
 FDK_DATASET_ETL_MEMORY: "1000Mi"
+NAMESPACE: staging
