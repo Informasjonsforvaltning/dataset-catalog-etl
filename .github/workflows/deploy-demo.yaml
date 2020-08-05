@@ -41,7 +41,7 @@ jobs:
           helm init --client-only
           helm repo add dataset-etl https://informasjonsforvaltning.github.io/dataset-etl/
           helm fetch --untar --untardir ./helm dataset-etl/dataset-etl
-          helm template ./helm/fdk-nginx-search/values/demo.yaml ./helm/dataset-etl/ > ./kubectlapply.yaml
+          helm template ./helm/dataset-etl/ > ./kubectlapply.yaml
           chmod o+w ./kubectlapply.yaml
           cat kubectlapply.yaml
 
