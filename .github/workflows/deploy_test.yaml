@@ -1,13 +1,11 @@
-name: Build and deploy to prod when merged to master
+name: Build and deploy to test on push
 
 on:
-  push:
-    branches:
-      - never
+  - push
 
 jobs:
   build-and-deploy:
-    name: Deploy to prod environment
+    name: Deploy to test environment
     runs-on: ubuntu-latest
 
     steps:
@@ -48,12 +46,12 @@ jobs:
       - name: Get kubeconfig file from GKE
         uses: machine-learning-apps/gke-kubeconfig@master
         with:
-          application_credentials: ${{ secrets.DIGDIR_FDK_PROD_AUTODEPLOY }}
-          project_id: digdir-fdk-prod
+          application_credentials: ${{ secrets.DIGDIR_FDK_DEV_AUTODEPLOY }}
+          project_id: digdir-fdk-dev
           location_zone: europe-north1-a
-          cluster_name: digdir-fdk-prod
+          cluster_name: digdir-fdk-dev
 
-      - name: Deploy to staging
+      - name: Deploy to test
         uses: docker://bitnami/kubectl:latest
         env:
           KUBECONFIG: '/github/workspace/.kube/config'
