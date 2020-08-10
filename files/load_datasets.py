@@ -17,7 +17,7 @@ args = parser.parse_args()
 datasetsGraph = None
 with open("fuseki_datasets.ttl") as fuseki_file:
     datasetsGraph = Graph().parse(data=fuseki_file.read(), format='turtle')
-metabaseURI = 'https://datasets.staging.fellesdatakatalog.digdir.no/datasets/'
+metabaseURI = 'https://datasets.fellesdatakatalog.digdir.no/datasets/'
 catalogrecordRef = URIRef("http://www.w3.org/ns/dcat#CatalogRecord")
 fusekibaseURI = 'http://fdk-fuseki-service:8080/fuseki/dataset-meta'
 

@@ -1,7 +1,9 @@
 name: Build and deploy to test on push
 
 on:
-  - push
+  push:
+    branches:
+      - never
 
 jobs:
   build-and-deploy:
