@@ -1,4 +1,4 @@
-# dataset-etl
+# dataset-catalog-etl
 ETL type utilities related to our dataset catalogue
 
 NOTE:
