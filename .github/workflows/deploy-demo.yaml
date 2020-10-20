@@ -28,10 +28,10 @@ jobs:
     - run: gcloud auth configure-docker
 
     - name: Build Docker image with GitHub commit sha tag and staging tag
-      run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-etl:latest
+      run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:latest
 
     - name: Publish docker image to Google Cloud
-      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-etl
+      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl
 
     - name: Apply Helm template
       uses: stefanprodan/kube-tools@v1
@@ -39,9 +39,9 @@ jobs:
         helm: 2.14.3
         command: |
           helm init --client-only
-          helm repo add dataset-etl https://informasjonsforvaltning.github.io/dataset-etl/
-          helm fetch --untar --untardir ./helm dataset-etl/dataset-etl
-          helm template ./helm/dataset-etl/ > ./kubectlapply.yaml
+          helm repo add dataset-catalog-etl https://informasjonsforvaltning.github.io/dataset-catalog-etl/
+          helm fetch --untar --untardir ./helm dataset-catalog-etl/dataset-catalog-etl
+          helm template ./helm/dataset-catalog-etl/ > ./kubectlapply.yaml
           chmod o+w ./kubectlapply.yaml
           cat kubectlapply.yaml
 
