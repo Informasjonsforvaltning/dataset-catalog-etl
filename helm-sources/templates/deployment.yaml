@@ -3,29 +3,29 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    fdk.service: dataset-etl
-  name: dataset-etl
+    fdk.service: dataset-catalog-etl
+  name: dataset-catalog-etl
   namespace: {{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      fdk.service: dataset-etl
+      fdk.service: dataset-catalog-etl
   strategy:
     type: Recreate
   template:
     metadata:
       creationTimestamp: null
       labels:
-        fdk.service: dataset-etl
+        fdk.service: dataset-catalog-etl
     spec:
       containers:
       - env:
         image: {{ required "Missing value DATASET_ETL_IMAGE" .Values.DATASET_ETL_IMAGE }}
         imagePullPolicy: Always
-        name: dataset-etl
+        name: dataset-catalog-etl
         resources:
           requests:
-            memory: {{ required "Missing value FDK_DATASET_ETL_MEMORY" .Values.FDK_DATASET_ETL_MEMORY | quote }}
+            memory: {{ required "Missing value FDK_DATASET_CATALOG_ETL_MEMORY" .Values.FDK_DATASET_CATALOG_ETL_MEMORY | quote }}
       restartPolicy: Always
 status: {}
