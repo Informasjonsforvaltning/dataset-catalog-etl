@@ -9,7 +9,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
 
-# data = json.loads('{"query":{"bool":{"must":[{"match_all":{}}],"must_not":[],"should":[]}},"from":0,"size":10000,"sort":[],"aggs":{}}')
 host = 'http://dataset-catalogue:8080'
 url = host + "/catalogs" + "?size=200"
 headers = {'Content-Type': 'application/json'}

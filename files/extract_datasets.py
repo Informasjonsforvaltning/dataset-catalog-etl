@@ -14,7 +14,8 @@ error_file = open('./tmp/extract_datasets_errors.txt', 'w')
 
 with open(inputfileName) as catalog_file:
     count = 0
-    data = json.load(catalog_file)["_embedded"]["catalogs"]
+    embedded = json.load(catalog_file).get("_embedded")
+    data = embedded.get("catalogs") if embedded else []
 
     for catalog in data:
         orgId = catalog['id']
