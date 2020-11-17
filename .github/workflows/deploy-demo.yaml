@@ -3,7 +3,7 @@ name: Build and deploy to demo when merged to master
 on:
   push:
     branches:
-      - never
+      - master
 
 jobs:
   build-and-deploy:
@@ -13,10 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: Setup pyhton environment
+    - name: Setup python environment
       uses: actions/setup-python@v1
       with:
-          python-version: 3.7
+        python-version: 3.7
 
     - name: Setup gcloud CLI
       uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
@@ -28,7 +28,7 @@ jobs:
     - run: gcloud auth configure-docker
 
     - name: Build Docker image with GitHub commit sha tag and staging tag
-      run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:latest
+      run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:demo_latest -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA
 
     - name: Publish docker image to Google Cloud
       run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl
@@ -41,7 +41,7 @@ jobs:
           helm init --client-only
           helm repo add dataset-catalog-etl https://informasjonsforvaltning.github.io/dataset-catalog-etl/
           helm fetch --untar --untardir ./helm dataset-catalog-etl/dataset-catalog-etl
-          helm template ./helm/dataset-catalog-etl/ > ./kubectlapply.yaml
+          helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA" -f ./helm-sources/values/demo.yaml ./helm/dataset-catalog-etl/ > ./kubectlapply.yaml
           chmod o+w ./kubectlapply.yaml
           cat kubectlapply.yaml
 
@@ -53,7 +53,7 @@ jobs:
         location_zone: europe-north1-a
         cluster_name: digdir-fdk-dev
 
-    - name: Deploy to staging
+    - name: Deploy to demo
       uses: docker://bitnami/kubectl:latest
       env:
         KUBECONFIG: '/github/workspace/.kube/config'

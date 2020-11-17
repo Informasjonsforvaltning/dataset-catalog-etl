@@ -21,11 +21,21 @@ spec:
     spec:
       containers:
       - env:
-        image: {{ required "Missing value DATASET_ETL_IMAGE" .Values.DATASET_ETL_IMAGE }}
+          - name: ELASTIC_DATASERVICE_INDEX
+            valueFrom:
+              secretKeyRef:
+                name: common-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: ELASTIC_DATASERVICE_INDEX
+          - name: DATASERVICE_BASE_URI
+            valueFrom:
+              secretKeyRef:
+                name: commonurl-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: FDK_DATASERVICE_HARVESTER_BASE_URI
+        image: {{ required "Missing value DOCKER_IMAGE_NAME" .Values.DOCKER_IMAGE_NAME }}
         imagePullPolicy: Always
         name: dataset-catalog-etl
         resources:
           requests:
-            memory: {{ required "Missing value FDK_DATASET_CATALOG_ETL_MEMORY" .Values.FDK_DATASET_CATALOG_ETL_MEMORY | quote }}
+            memory: {{ required "Missing value FDK_DATASERVICE_ETL_MEMORY" .Values.FDK_DATASERVICE_ETL_MEMORY | quote }}
       restartPolicy: Always
 status: {}
