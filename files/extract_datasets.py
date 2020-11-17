@@ -9,7 +9,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
 
-inputfileName = "/tmp/catalogs.json"
+inputfileName = "./tmp/catalogs.json"
 error_file = open('./tmp/extract_datasets_errors.txt', 'w')
 
 with open(inputfileName) as catalog_file:
