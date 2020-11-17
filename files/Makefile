@@ -1,20 +1,20 @@
 .PHONY: test
 all: extract transform load
 
-publishers:
-	echo "Extracting publishers...."
+catalogs:
+	echo "Extracting catalogs...."
 	python3 ./extract_catalogs.py -o ./tmp/
 
 extract:
-	echo "Extracting dataservices...."
+	echo "Extracting datasets...."
 	python3 ./extract_datasets.py -o ./tmp/
 
 transform:
-	echo "Transforming dataservices...."
+	echo "Transforming datasets...."
 	python3 -u ./transform_datasets.py -o ./tmp/
 
 load:
-	echo "Loading dataservices...."
+	echo "Loading datasets...."
 	python3 ./load_datasets.py -o ./tmp/
 
 clean:
