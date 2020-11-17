@@ -27,7 +27,7 @@ with open(catalogs) as catalog_file:
             inputfileName = args.outputdirectory + "datasets_" + orgId + ".json"
             with open(inputfileName) as json_file:
                 count = 0
-                embedded_datasets = json.load(catalog_file).get("_embedded")
+                embedded_datasets = json.load(json_file).get("_embedded")
                 data_datasets = embedded.get("catalogs") if embedded_datasets else []
 
                 for dataset in data_datasets:
