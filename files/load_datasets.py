@@ -22,22 +22,26 @@ with open(catalogs) as catalog_file:
     for catalog in data:
         orgId = catalog['id']
 
-        inputfileName = args.outputdirectory + "datasets_" + orgId + ".json"
-        with open(inputfileName) as json_file:
-            count = 0
-            embedded_datasets = json.load(catalog_file).get("_embedded")
-            data_datasets = embedded.get("catalogs") if embedded_datasets else []
+        try:
 
-            for dataset in data_datasets:
-                uploadUrl = 'http://dataset-catalog:8080/catalogs/' + dataset['organizationId'] + '/dataset'
+            inputfileName = args.outputdirectory + "datasets_" + orgId + ".json"
+            with open(inputfileName) as json_file:
+                count = 0
+                embedded_datasets = json.load(catalog_file).get("_embedded")
+                data_datasets = embedded.get("catalogs") if embedded_datasets else []
 
-                json_data = json.dumps(dataset)
+                for dataset in data_datasets:
+                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + dataset['organizationId'] + '/dataset'
 
-                try:
-                    rsp = requests.post(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json'})
-                    rsp.raise_for_status()
-                    output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
+                    json_data = json.dumps(dataset)
 
-                except requests.HTTPError as err:
-                    print(f'{err}' + ': ' + dataset["title"].get("nb"))
-                    error_file.write(f'{err}' + ': ' + json_data + "\n")
+                    try:
+                        rsp = requests.post(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json'})
+                        rsp.raise_for_status()
+                        output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
+
+                    except requests.HTTPError as err:
+                        print(f'{err}' + ': ' + dataset["title"].get("nb"))
+                        error_file.write(f'{err}' + ': ' + json_data + "\n")
+        except BaseException as err:
+            print(f'{orgId} - {err}')
