@@ -1,5 +1,6 @@
 import json
 import requests
+from pathlib import Path
 import os
 
 import argparse
@@ -10,7 +11,7 @@ args = parser.parse_args()
 
 # data = json.loads('{"query":{"bool":{"must":[{"match_all":{}}],"must_not":[],"should":[]}},"from":0,"size":10000,"sort":[],"aggs":{}}')
 host = 'http://dataset-catalogue:8080'
-url = host + "/catalogs"
+url = host + "/catalogs" + "?size=200"
 headers = {'Content-Type': 'application/json'}
 
 print("Posting to the following url: ", url)
