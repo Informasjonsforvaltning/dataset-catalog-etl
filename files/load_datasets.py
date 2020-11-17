@@ -31,7 +31,7 @@ with open(catalogs) as catalog_file:
                 data_datasets = embedded.get("catalogs") if embedded_datasets else []
 
                 for dataset in data_datasets:
-                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + dataset['organizationId'] + '/dataset'
+                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + dataset['catalogId'] + '/dataset'
 
                     json_data = json.dumps(dataset)
 
