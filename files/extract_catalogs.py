@@ -15,6 +15,6 @@ headers = {'Content-Type': 'application/json'}
 
 print("Posting to the following url: ", url)
 # Load the publisher by posting the data:
-r = requests.post(url, headers=headers)
+r = requests.get(url, headers=headers)
 with open(args.outputdirectory + 'catalogs.json', 'w', encoding="utf-8") as outfile:
     json.dump(r.json(), outfile, ensure_ascii=False, indent=4)
