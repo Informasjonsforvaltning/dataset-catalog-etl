@@ -30,7 +30,7 @@ with open(catalogs) as catalog_file:
 
                 for dataset in data_datasets:
                     dataset.get("_lastModified")
-                    dataset["_lastModified"] = re.sub(""".0000$""", dataset['_lastModified'])
+                    dataset["_lastModified"] = re.sub(""".0000$""", "", dataset['_lastModified'])
 
                     transformed.append(dataset)
 
