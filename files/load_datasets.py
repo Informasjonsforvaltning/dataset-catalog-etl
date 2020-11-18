@@ -11,7 +11,6 @@ args = parser.parse_args()
 output_file = open('./tmp/load_datasets_output.txt', 'w')
 error_file = open('./tmp/load_datasets_errors.txt', 'w')
 
-#inputfileName = args.outputdirectory + "datasets_transformed.json"
 catalogs = "./tmp/catalogs.json"
 
 with open(catalogs) as catalog_file:
@@ -31,7 +30,7 @@ with open(catalogs) as catalog_file:
                 data_datasets = embedded_datasets.get("datasets") if embedded_datasets else []
 
                 for dataset in data_datasets:
-                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + orgId + '/dataset'
+                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + orgId + '/datasets'
 
                     json_data = json.dumps(dataset)
 
