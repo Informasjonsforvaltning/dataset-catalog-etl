@@ -20,16 +20,17 @@ with open(catalogs) as catalog_file:
     try:
         for catalog in data:
             orgId = catalog['id']
+            json_data = json.dumps(catalog)
             print("Posting to the following url: ", url)
             # Load the publisher by posting the data:
             try:
-                rsp = requests.post(url, catalog, headers={'content-type': 'application/json', 'accept': 'application/json'})
+                rsp = requests.post(url, json_data, headers={'content-type': 'application/json', 'accept': 'application/json'})
                 rsp.raise_for_status()
-                output_file.write(f'{rsp.status_code}' + ': ' + catalog + "\n")
+                output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
 
             except requests.HTTPError as err:
                 print(f'{err}' + ': ' + orgId)
-                error_file.write(f'{err}' + ': ' + catalog + "\n")
+                error_file.write(f'{err}' + ': ' + json_data + "\n")
 
     except BaseException as err:
         print(f'{orgId} - {err}')
