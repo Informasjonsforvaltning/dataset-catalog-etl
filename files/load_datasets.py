@@ -23,7 +23,7 @@ with open(catalogs) as catalog_file:
 
         try:
 
-            inputfileName = args.outputdirectory + "datasets_" + orgId + ".json"
+            inputfileName = args.outputdirectory + "transformed_datasets_" + orgId + ".json"
             with open(inputfileName) as json_file:
                 count = 0
                 embedded_datasets = json.load(json_file).get("_embedded")
