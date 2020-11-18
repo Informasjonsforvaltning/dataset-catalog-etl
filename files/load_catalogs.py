@@ -10,7 +10,7 @@ output_file = open('./tmp/load_catalogs_output.txt', 'w')
 error_file = open('./tmp/load_catalogs_errors.txt', 'w')
 
 catalogs = "./tmp/catalogs.json"
-url = 'http://dataset-catalogue:8080/catalogs'
+url = 'http://dataset-catalog:8080/catalogs'
 
 with open(catalogs) as catalog_file:
     count = 0
