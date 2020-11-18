@@ -31,6 +31,14 @@ with open(catalogs) as catalog_file:
                 for dataset in data_datasets:
                     dataset["_lastModified"] = re.sub(""".0000$""", "", dataset['_lastModified'])
 
+                    issued = dataset.get("issued")
+                    if issued:
+                        dataset['issued'] = re.sub(""".0000$""", "", dataset['issued'])
+
+                    modified = dataset.get("modified")
+                    if modified:
+                        dataset["modified"] = re.sub(""".0000$""", "", dataset['modified'])
+
                     transformed.append(dataset)
 
                 with open(args.outputdirectory + 'transformed_datasets_' + orgId + '.json', 'w', encoding="utf-8") as outfile:
