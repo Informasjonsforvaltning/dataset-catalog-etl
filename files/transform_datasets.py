@@ -33,11 +33,25 @@ with open(catalogs) as catalog_file:
 
                     issued = dataset.get("issued")
                     if issued:
-                        dataset['issued'] = re.sub(""".0000$""", "", dataset['issued'])
+                        dataset['issued'] = re.sub(""".0000$""", "", issued)
 
                     modified = dataset.get("modified")
                     if modified:
-                        dataset["modified"] = re.sub(""".0000$""", "", dataset['modified'])
+                        dataset["modified"] = re.sub(""".0000$""", "", modified)
+
+                    temporal = dataset.get("temporal")
+                    if temporal:
+                        modified_temporal = []
+                        for dates in temporal:
+                            startDate = dates.get("startDate")
+                            endDate = dates.get("endDate")
+                            if startDate:
+                                dates["startDate"] = re.sub(""".0000$""", "", startDate)
+                            if endDate:
+                                dates["endDate"] = re.sub(""".0000$""", "", endDate)
+                            modified_temporal.append(dates)
+
+                        dataset["temporal"] = modified_temporal
 
                     transformed.append(dataset)
 
