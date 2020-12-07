@@ -8,7 +8,9 @@ args = parser.parse_args()
 
 output_file = open('./tmp/load_catalogs_output.txt', 'w')
 error_file = open('./tmp/load_catalogs_errors.txt', 'w')
+token_file = open('../tmp/token.json')
 
+token = token_file.read()
 catalogs = "./tmp/catalogs.json"
 url = 'http://dataset-catalog:8080/catalogs'
 
@@ -24,7 +26,7 @@ with open(catalogs) as catalog_file:
             print("Posting to the following url: ", url)
             # Load the publisher by posting the data:
             try:
-                rsp = requests.post(url, json_data, headers={'content-type': 'application/json', 'accept': 'application/json'})
+                rsp = requests.post(url, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
                 rsp.raise_for_status()
                 output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
 

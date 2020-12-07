@@ -10,7 +10,9 @@ args = parser.parse_args()
 
 output_file = open('./tmp/load_datasets_output.txt', 'w')
 error_file = open('./tmp/load_datasets_errors.txt', 'w')
+token_file = open('../tmp/token.json')
 
+token = token_file.read()
 catalogs = "./tmp/catalogs.json"
 
 with open(catalogs) as catalog_file:
@@ -34,7 +36,7 @@ with open(catalogs) as catalog_file:
                     json_data = json.dumps(dataset)
 
                     try:
-                        rsp = requests.post(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json'})
+                        rsp = requests.post(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
                         rsp.raise_for_status()
                         output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
 
