@@ -11,7 +11,7 @@ args = parser.parse_args()
 
 inputfileName = "./tmp/catalogs.json"
 error_file = open('./tmp/extract_datasets_errors.txt', 'w')
-token_file = open('../tmp/token.json')
+token_file = open('../tmp/token.txt')
 
 token = token_file.read()
 

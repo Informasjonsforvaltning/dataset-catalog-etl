@@ -4,7 +4,7 @@ from pathlib import Path
 import os
 
 import argparse
-token_file = open('../tmp/token.json')
+token_file = open('../tmp/token.txt')
 
 token = token_file.read()
 parser = argparse.ArgumentParser()
