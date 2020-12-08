@@ -12,7 +12,7 @@ output_file = open('./tmp/load_datasets_output.txt', 'w')
 error_file = open('./tmp/load_datasets_errors.txt', 'w')
 token_file = open('./tmp/token.txt')
 
-token = str(token_file.read())
+token = [line.rstrip('\n') for line in token_file]
 catalogs = "./tmp/catalogs.json"
 
 with open(catalogs) as catalog_file:
