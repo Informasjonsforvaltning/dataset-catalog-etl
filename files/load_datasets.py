@@ -10,7 +10,7 @@ args = parser.parse_args()
 
 output_file = open('./tmp/load_datasets_output.txt', 'w')
 error_file = open('./tmp/load_datasets_errors.txt', 'w')
-token_file = open('../tmp/token.txt')
+token_file = open('./tmp/token.txt')
 
 token = token_file.read()
 catalogs = "./tmp/catalogs.json"
