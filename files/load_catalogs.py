@@ -10,7 +10,7 @@ output_file = open('./tmp/load_catalogs_output.txt', 'w')
 error_file = open('./tmp/load_catalogs_errors.txt', 'w')
 token_file = open('./tmp/token.txt')
 
-token = [line.rstrip('\n') for line in token_file]
+token = str([line.rstrip('\n') for line in token_file])
 catalogs = "./tmp/catalogs.json"
 url = 'http://dataset-catalog:8080/catalogs'
 
