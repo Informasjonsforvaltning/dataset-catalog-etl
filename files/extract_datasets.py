@@ -13,7 +13,7 @@ inputfileName = "./tmp/catalogs.json"
 error_file = open('./tmp/extract_datasets_errors.txt', 'w')
 token_file = open('./tmp/token.txt')
 
-token = token_file.read()
+token = str(token_file.read())
 
 with open(inputfileName) as catalog_file:
     count = 0

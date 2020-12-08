@@ -6,7 +6,7 @@ import os
 import argparse
 token_file = open('./tmp/token.txt')
 
-token = token_file.read()
+token = str(token_file.read())
 parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
