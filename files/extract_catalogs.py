@@ -15,7 +15,7 @@ args = parser.parse_args()
 inputfile = "./tmp/catalogs.json"
 host = 'http://dataset-catalogue:8080'
 url = host + "/catalogs" + "?size=200"
-headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token}
+headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token[0]}
 
 print("Posting to the following url: ", url)
 print(str(headers))
