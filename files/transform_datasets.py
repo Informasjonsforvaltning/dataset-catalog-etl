@@ -29,29 +29,29 @@ with open(catalogs) as catalog_file:
                 transformed = []
 
                 for dataset in data_datasets:
-                    # dataset["_lastModified"] = re.sub(""".0000$""", "", dataset['_lastModified'])
-                    #
-                    # issued = dataset.get("issued")
-                    # if issued:
-                    #     dataset['issued'] = re.sub(""".0000$""", "", issued)
-                    #
-                    # modified = dataset.get("modified")
-                    # if modified:
-                    #     dataset["modified"] = re.sub(""".0000$""", "", modified)
-                    #
-                    # temporal = dataset.get("temporal")
-                    # if temporal:
-                    #     modified_temporal = []
-                    #     for dates in temporal:
-                    #         startDate = dates.get("startDate")
-                    #         endDate = dates.get("endDate")
-                    #         if startDate:
-                    #             dates["startDate"] = re.sub(""".0000$""", "", startDate)
-                    #         if endDate:
-                    #             dates["endDate"] = re.sub(""".0000$""", "", endDate)
-                    #         modified_temporal.append(dates)
-                    #
-                    #     dataset["temporal"] = modified_temporal
+                    dataset["_lastModified"] = re.sub(""".0000$""", "", dataset['_lastModified'])
+
+                    issued = dataset.get("issued")
+                    if issued:
+                        dataset['issued'] = re.sub("""T$""", "", issued)
+
+                    modified = dataset.get("modified")
+                    if modified:
+                        dataset["modified"] = re.sub("""T$""", "", modified)
+
+                    temporal = dataset.get("temporal")
+                    if temporal:
+                        modified_temporal = []
+                        for dates in temporal:
+                            startDate = dates.get("startDate")
+                            endDate = dates.get("endDate")
+                            if startDate:
+                                dates["startDate"] = re.sub("""T$""", "", startDate)
+                            if endDate:
+                                dates["endDate"] = re.sub("""T$""", "", endDate)
+                            modified_temporal.append(dates)
+
+                        dataset["temporal"] = modified_temporal
 
                     transformed.append(dataset)
 
