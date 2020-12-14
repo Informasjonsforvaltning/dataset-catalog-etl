@@ -29,7 +29,7 @@ with open(catalogs) as catalog_file:
                 transformed = []
 
                 for dataset in data_datasets:
-                    dataset["_lastModified"] = re.sub(""".000$""", "", dataset['_lastModified'])
+                    dataset["_lastModified"] = re.sub("""[.].*""", "", dataset['_lastModified'])
 
                     issued = dataset.get("issued")
                     if issued:
