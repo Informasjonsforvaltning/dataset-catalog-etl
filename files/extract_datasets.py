@@ -18,7 +18,7 @@ print("Getting the following url: ", url)
 try:
     rsp = requests.get(url, headers=headers)
     rsp.raise_for_status()
-    json.dump(rsp, output_file, ensure_ascii=False, indent=4)
+    json.dump(rsp.json(), output_file, ensure_ascii=False, indent=4)
 
 except requests.HTTPError as err:
     print(f'{err}')
