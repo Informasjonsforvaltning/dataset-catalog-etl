@@ -20,7 +20,7 @@ with open(output_file) as output:
     try:
         rsp = requests.get(url, headers=headers)
         rsp.raise_for_status()
-        json.dump(rsp.text, output, ensure_ascii=False, indent=4)
+        output.write(rsp.text)
 
     except requests.HTTPError as err:
         print(f'{err}')
