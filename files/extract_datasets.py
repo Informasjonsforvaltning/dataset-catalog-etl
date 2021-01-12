@@ -11,7 +11,7 @@ args = parser.parse_args()
 
 output_file = "./tmp/datasets.json"
 url = 'http://dataset-catalog:8080/datasets'
-headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token}
+headers = {'Accept': 'application/json', 'Authorization': 'Bearer ' + token}
 
 print("Getting the following url: ", url)
 
