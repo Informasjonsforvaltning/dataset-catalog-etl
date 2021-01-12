@@ -1,21 +1,24 @@
 import json
 import requests
-import sys
 
 import argparse
+token_file = open('./tmp/token.txt')
 
+token = str([line.rstrip('\n') for line in token_file][0])
 parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
 
-data = json.loads('{"query":{"bool":{"must":[{"match_all":{}}],"must_not":[],"should":[]}},"from":0,"size":10000,"sort":[],"aggs":{}}')
-host = 'http://elasticsearch5:9200/'
-url = host + "dcat_v5/_search"
-headers = {'Content-Type': 'application/json'}
+output_file = "./tmp/datasets.json"
+url = 'http://dataset-catalog:8080/datasets'
+headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token}
 
-print("Posting to the following url: ", url)
-print("Posting to publisher index the following data:\n", data)
-# Load the publisher by posting the data:
-r = requests.post(url, json=data, headers=headers)
-with open(args.outputdirectory + 'datasets.json', 'w', encoding="utf-8") as outfile:
-    json.dump(r.json(), outfile, ensure_ascii=False, indent=4)
+print("Getting the following url: ", url)
+
+try:
+    rsp = requests.get(url, headers={headers})
+    rsp.raise_for_status()
+    json.dump(rsp, output_file, ensure_ascii=False, indent=4)
+
+except requests.HTTPError as err:
+    print(f'{err}')

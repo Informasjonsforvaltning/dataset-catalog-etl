@@ -1,30 +1,62 @@
 import json
-
+import urllib.request
 import argparse
+import re
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
 
 
-def transform(data):
-    # Transforming according to rules in README
-    array = data["hits"]["hits"]
-    print (len(array))
-    newArray = []
-    for dataset in array:
-        if dataset["_source"].get("harvest"):
-            dataset2 = {"doc": {"id": dataset["_id"], "uri": dataset["_source"]["uri"],"harvest": {"firstHarvested": dataset["_source"].get("harvest")["firstHarvested"], "lastHarvested": dataset["_source"].get("harvest")["lastHarvested"], "changed": dataset["_source"].get("harvest")["changed"]}}}
-            newArray.append(dataset2)
-    transformed = newArray
-    print ("Total to be transformed: ", len(newArray))
-    return transformed
+catalogs = "./tmp/catalogs.json"
 
+with open(catalogs) as catalog_file:
+    count = 0
+    embedded = json.load(catalog_file).get("_embedded")
+    data = embedded.get("catalogs") if embedded else []
 
-inputfileName = args.outputdirectory + "datasets.json"
-outputfileName = args.outputdirectory + "datasets_metadata.json"
-with open(inputfileName) as json_file:
-    data = json.load(json_file)
-    # Transform the organization object to publihser format:
-    with open(outputfileName, 'w', encoding="utf-8") as outfile:
-        json.dump(transform(data), outfile, ensure_ascii=False, indent=4)
+    for catalog in data:
+        orgId = catalog['id']
+
+        try:
+
+            inputfileName = args.outputdirectory + "datasets_" + orgId + ".json"
+            with open(inputfileName) as json_file:
+                count = 0
+                embedded_datasets = json.load(json_file).get("_embedded")
+                data_datasets = embedded_datasets.get("datasets") if embedded_datasets else []
+                transformed = []
+
+                for dataset in data_datasets:
+                    dataset["_lastModified"] = re.sub("""[.].*""", "", dataset['_lastModified'])
+
+                    issued = dataset.get("issued")
+                    if issued:
+                        dataset['issued'] = re.sub("""T.*""", "", issued)
+
+                    modified = dataset.get("modified")
+                    if modified:
+                        dataset["modified"] = re.sub("""T.*""", "", modified)
+
+                    temporal = dataset.get("temporal")
+                    if temporal:
+                        modified_temporal = []
+                        for dates in temporal:
+                            startDate = dates.get("startDate")
+                            endDate = dates.get("endDate")
+                            if startDate:
+                                dates["startDate"] = re.sub("""T.*""", "", startDate)
+                            if endDate:
+                                dates["endDate"] = re.sub("""T.*""", "", endDate)
+                            modified_temporal.append(dates)
+
+                        dataset["temporal"] = modified_temporal
+
+                    transformed.append(dataset)
+
+                with open(args.outputdirectory + 'transformed_datasets_' + orgId + '.json', 'w', encoding="utf-8") as outfile:
+                    json.dump(transformed, outfile, ensure_ascii=False, indent=4)
+
+        except BaseException as err:
+            print(f'{orgId} - {err}')
