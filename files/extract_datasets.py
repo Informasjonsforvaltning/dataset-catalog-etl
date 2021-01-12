@@ -19,7 +19,7 @@ with open(catalogs) as catalog_file:
     for catalog in data:
         orgId = catalog['id']
 
-        url = 'http://dataset-catalog:8080/catalogs' + orgId + '/datasets'
+        url = 'http://dataset-catalog:8080/catalogs/' + orgId + '/datasets'
         headers = {'Accept': 'application/json', 'Authorization': 'Bearer ' + token}
         print("Getting the following url: ", url)
 
