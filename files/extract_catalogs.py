@@ -16,7 +16,7 @@ headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + toke
 print("Getting the following url: ", url)
 
 try:
-    rsp = requests.get(url, headers={headers})
+    rsp = requests.get(url, headers=headers)
     rsp.raise_for_status()
     json.dump(rsp, output_file, ensure_ascii=False, indent=4)
 
