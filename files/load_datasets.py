@@ -32,7 +32,7 @@ with open(catalogs) as catalog_file:
                     json_data = json.dumps(dataset)
 
                     try:
-                        rsp = requests.put(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
+                        rsp = requests.patch(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
                         rsp.raise_for_status()
                         output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
 
