@@ -35,7 +35,7 @@ with open(catalogs) as catalog_file:
         transformed = []
 
         with open(f'./tmp/datasets-'+orgId+'.json') as dataset_file:
-            embedded = json.load(catalog_file).get("_embedded")
+            embedded = json.load(dataset_file).get("_embedded")
             datasets = embedded.get("datasets") if embedded else []
 
             for dataset in datasets:

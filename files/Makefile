@@ -9,6 +9,10 @@ extract:
 	echo "Extracting datasets...."
 	python3 ./extract_datasets.py -o ./tmp/
 
+transform_catalogs:
+	echo "Transforming catalogs...."
+	python3 ./transform_catalogs.py -o ./tmp/
+
 transform:
 	echo "Transforming datasets...."
 	python3 ./transform_datasets.py -o ./tmp/
