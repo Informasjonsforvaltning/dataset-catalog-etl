@@ -13,12 +13,10 @@ error_file = open('./tmp/load_datasets_errors.txt', 'w')
 token_file = open('./tmp/token.txt')
 
 token = str([line.rstrip('\n') for line in token_file][0])
-catalogs = "./tmp/catalogs.json"
+catalogs = "./tmp/transformed_catalogs.json"
 
 with open(catalogs) as catalog_file:
-    count = 0
-    embedded = json.load(catalog_file).get("_embedded")
-    data = embedded.get("catalogs") if embedded else []
+    data = json.load(catalog_file)
 
     for catalog in data:
         orgId = catalog['id']
@@ -27,16 +25,14 @@ with open(catalogs) as catalog_file:
 
             inputfileName = args.outputdirectory + "transformed_datasets_" + orgId + ".json"
             with open(inputfileName) as json_file:
-                count = 0
                 data_datasets = json.load(json_file)
 
                 for dataset in data_datasets:
-                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + orgId + '/datasets'
-
+                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + orgId + '/datasets/' + dataset['id']
                     json_data = json.dumps(dataset)
 
                     try:
-                        rsp = requests.post(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
+                        rsp = requests.put(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
                         rsp.raise_for_status()
                         output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
 

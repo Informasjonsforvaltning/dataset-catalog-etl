@@ -11,22 +11,21 @@ error_file = open('./tmp/load_catalogs_errors.txt', 'w')
 token_file = open('./tmp/token.txt')
 
 token = str([line.rstrip('\n') for line in token_file][0])
-catalogs = "./tmp/catalogs.json"
+catalogs = "./tmp/transformed_catalogs.json"
 url = 'http://dataset-catalog:8080/catalogs'
 
 with open(catalogs) as catalog_file:
-    count = 0
-    embedded = json.load(catalog_file).get("_embedded")
-    data = embedded.get("catalogs") if embedded else []
+    data = json.load(catalog_file)
 
     try:
         for catalog in data:
             orgId = catalog['id']
+            put_url = url + '/' + orgId
             json_data = json.dumps(catalog)
             print("Posting to the following url: ", url)
             # Load the publisher by posting the data:
             try:
-                rsp = requests.post(url, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
+                rsp = requests.put(put_url, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
                 rsp.raise_for_status()
                 output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
 
