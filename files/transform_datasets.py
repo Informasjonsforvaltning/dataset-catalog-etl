@@ -2,61 +2,50 @@ import json
 import urllib.request
 import argparse
 import re
-
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
 
-
 catalogs = "./tmp/catalogs.json"
+match_string = '\\d{9}\\z'
+environment = '' if os.environ['NAMESPACE'] == 'prod' else '.' + os.environ['NAMESPACE']
+orgcat_uri = 'https://organization-catalogue' + environment + '.fellesdatakatalog.digdir.no/organizations/'
+
+
+def getPublisherId(publisher):
+    if publisher.get('id'):
+        ids = re.findall(match_string,publisher['id'])
+        if len(ids) > 0:
+            return ids[0]
+    if publisher.get('uri'):
+        ids = re.findall(match_string,publisher['uri'])
+        if len(ids) > 0:
+            return ids[0]
+    return None
+
 
 with open(catalogs) as catalog_file:
-    count = 0
     embedded = json.load(catalog_file).get("_embedded")
     data = embedded.get("catalogs") if embedded else []
 
     for catalog in data:
         orgId = catalog['id']
+        transformed = []
 
-        try:
+        with open(f'./tmp/datasets-'+orgId+'.json') as dataset_file:
+            embedded = json.load(catalog_file).get("_embedded")
+            datasets = embedded.get("datasets") if embedded else []
 
-            inputfileName = args.outputdirectory + "datasets_" + orgId + ".json"
-            with open(inputfileName) as json_file:
-                count = 0
-                embedded_datasets = json.load(json_file).get("_embedded")
-                data_datasets = embedded_datasets.get("datasets") if embedded_datasets else []
-                transformed = []
-
-                for dataset in data_datasets:
-                    dataset["_lastModified"] = re.sub("""[.].*""", "", dataset['_lastModified'])
-
-                    issued = dataset.get("issued")
-                    if issued:
-                        dataset['issued'] = re.sub("""T.*""", "", issued)
-
-                    modified = dataset.get("modified")
-                    if modified:
-                        dataset["modified"] = re.sub("""T.*""", "", modified)
-
-                    temporal = dataset.get("temporal")
-                    if temporal:
-                        modified_temporal = []
-                        for dates in temporal:
-                            startDate = dates.get("startDate")
-                            endDate = dates.get("endDate")
-                            if startDate:
-                                dates["startDate"] = re.sub("""T.*""", "", startDate)
-                            if endDate:
-                                dates["endDate"] = re.sub("""T.*""", "", endDate)
-                            modified_temporal.append(dates)
-
-                        dataset["temporal"] = modified_temporal
-
+            for dataset in datasets:
+                publisher_id = getPublisherId(dataset.publisher)
+                if publisher_id:
+                    updated_publisher = {'uri': orgcat_uri + publisher_id, 'id': publisher_id}
+                    dataset["publisher"] = updated_publisher
                     transformed.append(dataset)
+                else:
+                    print(f'No publisher ID found: {orgId} - ' + dataset.get('name'))
 
-                with open(args.outputdirectory + 'transformed_datasets_' + orgId + '.json', 'w', encoding="utf-8") as outfile:
-                    json.dump(transformed, outfile, ensure_ascii=False, indent=4)
-
-        except BaseException as err:
-            print(f'{orgId} - {err}')
+            with open(args.outputdirectory + 'transformed_datasets_' + orgId + '.json', 'w', encoding="utf-8") as outfile:
+                json.dump(transformed, outfile, ensure_ascii=False, indent=4)
