@@ -39,7 +39,7 @@ with open(catalogs) as catalog_file:
             datasets = embedded.get("datasets") if embedded else []
 
             for dataset in datasets:
-                publisher_id = getPublisherId(dataset.publisher)
+                publisher_id = getPublisherId(dataset.get('publisher'))
                 if publisher_id:
                     updated_publisher = {'uri': orgcat_uri + publisher_id, 'id': publisher_id}
                     dataset["publisher"] = updated_publisher
