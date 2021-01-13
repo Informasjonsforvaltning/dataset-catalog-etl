@@ -10,6 +10,7 @@ args = parser.parse_args()
 
 catalogs = "./tmp/catalogs.json"
 match_string = '\d{9}$'
+match_string_json = '(\d{9}).json$'
 environment = '' if os.environ['NAMESPACE'] == 'prod' else '.' + os.environ['NAMESPACE']
 orgcat_uri = 'https://organization-catalogue' + environment + '.fellesdatakatalog.digdir.no/organizations/'
 
@@ -20,7 +21,10 @@ def getPublisherId(publisher):
         if len(ids) > 0:
             return ids[0]
     if publisher.get('uri'):
-        ids = re.findall(match_string,publisher['uri'])
+        ids = re.findall(match_string, publisher['uri'])
+        if len(ids) > 0:
+            return ids[0]
+        ids = re.findall(match_string_json, publisher['uri'])
         if len(ids) > 0:
             return ids[0]
     return None
@@ -45,6 +49,7 @@ with open(catalogs) as catalog_file:
                     updated_publisher['id'] = publisher_id
                     updated_publisher['uri'] = orgcat_uri + publisher_id
                 else:
+
                     updated_publisher = {'uri': orgcat_uri + orgId, 'id': orgId}
                     print(f'No publisher ID found: {orgId} - ' + dataset.get('id'))
 
