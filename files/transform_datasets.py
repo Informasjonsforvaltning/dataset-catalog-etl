@@ -9,14 +9,14 @@ parser.add_argument('-o', '--outputdirectory', help="the path to the directory o
 args = parser.parse_args()
 
 catalogs = "./tmp/catalogs.json"
-match_string = '\\d{9}\\z'
+match_string = '\d{9}\z'
 environment = '' if os.environ['NAMESPACE'] == 'prod' else '.' + os.environ['NAMESPACE']
 orgcat_uri = 'https://organization-catalogue' + environment + '.fellesdatakatalog.digdir.no/organizations/'
 
 
 def getPublisherId(publisher):
     if publisher.get('id'):
-        ids = re.findall(match_string,publisher['id'])
+        ids = re.findall(match_string, publisher['id'])
         if len(ids) > 0:
             return ids[0]
     if publisher.get('uri'):
