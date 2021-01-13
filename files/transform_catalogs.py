@@ -20,7 +20,12 @@ with open(catalogs) as catalog_file:
 
     for catalog in data:
         orgId = catalog['id']
-        updated_publisher = {'uri': orgcat_uri + orgId, 'id': orgId}
+        updated_publisher = catalog.get('publisher')
+        if updated_publisher:
+            updated_publisher['id'] = orgId
+            updated_publisher['uri'] = orgcat_uri + orgId
+        else:
+            updated_publisher = {'uri': orgcat_uri + orgId, 'id': orgId}
 
         try:
             catalog["publisher"] = updated_publisher

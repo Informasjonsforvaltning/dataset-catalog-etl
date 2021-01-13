@@ -39,13 +39,17 @@ with open(catalogs) as catalog_file:
             datasets = embedded.get("datasets") if embedded else []
 
             for dataset in datasets:
-                publisher_id = getPublisherId(dataset.get('publisher'))
+                updated_publisher = dataset.get('publisher')
+                publisher_id = getPublisherId(updated_publisher)
                 if publisher_id:
-                    updated_publisher = {'uri': orgcat_uri + publisher_id, 'id': publisher_id}
-                    dataset["publisher"] = updated_publisher
-                    transformed.append(dataset)
+                    updated_publisher['id'] = publisher_id
+                    updated_publisher['uri'] = orgcat_uri + publisher_id
                 else:
+                    updated_publisher = {'uri': orgcat_uri + orgId, 'id': orgId}
                     print(f'No publisher ID found: {orgId} - ' + dataset.get('name'))
+
+                dataset["publisher"] = updated_publisher
+                transformed.append(dataset)
 
             with open(args.outputdirectory + 'transformed_datasets_' + orgId + '.json', 'w', encoding="utf-8") as outfile:
                 json.dump(transformed, outfile, ensure_ascii=False, indent=4)
