@@ -46,7 +46,7 @@ with open(catalogs) as catalog_file:
                     updated_publisher['uri'] = orgcat_uri + publisher_id
                 else:
                     updated_publisher = {'uri': orgcat_uri + orgId, 'id': orgId}
-                    print(f'No publisher ID found: {orgId} - ' + dataset.get('name'))
+                    print(f'No publisher ID found: {orgId} - ' + dataset.get('id'))
 
                 dataset["publisher"] = updated_publisher
                 transformed.append(dataset)
