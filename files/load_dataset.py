@@ -17,7 +17,6 @@ with open(args.outputdirectory + 'dataset.json') as dataset_file:
         print("To be inserted: " + str(dataset))
         print(db.datasets.insert({"_id": dataset["_id"],
                                   "catalogId": dataset["catalogId"],
-                                  "lastModified": dataset["lastModified"],
                                   "registrationStatus": dataset["registrationStatus"],
                                   "concepts": dataset["concepts"],
                                   "subject": dataset["subject"],
