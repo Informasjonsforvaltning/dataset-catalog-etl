@@ -3,12 +3,12 @@ entries:
   dataset-catalog-etl:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2021-02-08T10:28:40.300143792+01:00"
+    created: "2021-02-08T10:33:52.990042936+01:00"
     description: Config for Dataset catalog etl
-    digest: 537936f27b3c8cfa835f889e857c6146869b719934b4c20431f012f314414ba7
+    digest: 4e75574f4a67150095d3ccbb477278408f21500c9e6364bbb26ba769c51f6dc5
     home: https://github.com/Informasjonsforvaltning/dataset-catalog-etl
     name: dataset-catalog-etl
     urls:
     - https://informasjonsforvaltning.github.io/dataset-catalog-etl/dataset-catalog-etl-0.1.0.tgz
     version: 0.1.0
-generated: "2021-02-08T10:28:40.299767652+01:00"
+generated: "2021-02-08T10:33:52.988945853+01:00"
