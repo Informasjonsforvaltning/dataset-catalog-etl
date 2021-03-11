@@ -18,9 +18,12 @@ for id_dict in dict_list:
     accessURL = id_dict["accessURL"] if id_dict.get("accessURL") else None
     conformsTo = id_dict["conformsTo"] if id_dict.get("conformsTo") else None
     datasets[id_str] = id_str
-    datasets[id_str].append(downloadURL)
-    datasets[id_str].append(accessURL)
-    datasets[id_str].append(conformsTo)
+    if downloadURL:
+        datasets[downloadURL[0]] = downloadURL[0]
+    if accessURL:
+        datasets[accessURL[0]] = accessURL[0]
+    if conformsTo:
+        datasets[conformsTo[0]] = conformsTo[0]
 
 
 with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
