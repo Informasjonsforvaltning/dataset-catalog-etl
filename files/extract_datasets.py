@@ -13,6 +13,7 @@ db = connection.datasetCatalog
 dict_list = list(db.datasets.find())
 datasets = {}
 for id_dict in dict_list:
+    print(str(id_dict))
     id_str = id_dict["_id"]
     downloadURL = id_dict["downloadURL"] if not None else None
     accessURL = id_dict["accessURL"] if not None else None
