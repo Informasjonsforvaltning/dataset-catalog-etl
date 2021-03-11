@@ -14,9 +14,9 @@ dict_list = list(db.datasets.find())
 datasets = {}
 for id_dict in dict_list:
     id_str = id_dict["_id"]
-    downloadURL = id_dict["downloadURL"]
-    accessURL = id_dict["accessURL"]
-    conformsTo = id_dict["conformsTo"]
+    downloadURL = id_dict["downloadURL"] if not None else None
+    accessURL = id_dict["accessURL"] if not None else None
+    conformsTo = id_dict["conformsTo"] if not None else None
     datasets["_id"] = id_str
     datasets["_id"].append(downloadURL)
     datasets["_id"].append(downloadURL)
