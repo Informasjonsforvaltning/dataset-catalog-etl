@@ -1,34 +1,28 @@
 import json
-import requests
-
+import os
+from pymongo import MongoClient
 import argparse
-token_file = open('./tmp/token.txt')
-# output_file = open('./tmp/datasets.json', 'w')
-catalogs = "./tmp/catalogs.json"
 
-token = str([line.rstrip('\n') for line in token_file][0])
 parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
+connection = MongoClient(
+    f"""mongodb://{os.environ['MONGO_USERNAME']}:{os.environ['MONGO_PASSWORD']}@mongodb:27017/datasetCatalog?authSource=admin&authMechanism=SCRAM-SHA-1""")
 
-with open(catalogs) as catalog_file:
+db = connection.datasetCatalog
+dict_list = list(db.datasets.find())
+datasets = {}
+for id_dict in dict_list:
+    id_str = id_dict["_id"]
+    downloadURL = id_dict["downloadURL"]
+    accessURL = id_dict["accessURL"]
+    conformsTo = id_dict["conformsTo"]
+    datasets["_id"] = id_str
+    datasets["_id"].append(downloadURL)
+    datasets["_id"].append(downloadURL)
+    datasets["_id"].append(downloadURL)
 
-    embedded = json.load(catalog_file).get("_embedded")
-    data = embedded.get("catalogs") if embedded else []
 
-    for catalog in data:
-        orgId = catalog['id']
+with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
+    json.dump(datasets, outfile, ensure_ascii=False, indent=4)
 
-        url = 'http://dataset-catalog:8080/catalogs/' + orgId + '/datasets'
-        headers = {'Accept': 'application/json', 'Authorization': 'Bearer ' + token}
-        print("Getting the following url: ", url)
-
-        with open(f'./tmp/datasets-{orgId}.json', 'w') as output_file:
-
-            try:
-                rsp = requests.get(url, headers=headers)
-                rsp.raise_for_status()
-                output_file.write(rsp.text)
-
-            except requests.HTTPError as err:
-                print(f'{err}')
