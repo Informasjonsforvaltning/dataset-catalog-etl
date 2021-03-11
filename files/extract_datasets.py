@@ -20,8 +20,8 @@ for id_dict in dict_list:
     conformsTo = id_dict["conformsTo"] if id_dict["conformsTo"] else None
     datasets["_id"] = id_str
     datasets["_id"].append(downloadURL)
-    datasets["_id"].append(downloadURL)
-    datasets["_id"].append(downloadURL)
+    datasets["_id"].append(accessURL)
+    datasets["_id"].append(conformsTo)
 
 
 with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
