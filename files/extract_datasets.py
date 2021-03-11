@@ -18,12 +18,13 @@ for id_dict in dict_list:
     downloadURL = id_dict["downloadURL"] if id_dict.get("downloadURL") else None
     accessURL = id_dict["accessURL"] if id_dict.get("accessURL") else None
     conformsTo = id_dict["conformsTo"] if id_dict.get("conformsTo") else None
+    dataset["_id"] = id_str
     if downloadURL:
         dataset["downloadURL"] = downloadURL[0]
     if accessURL:
-        datasets["accessURL"] = accessURL[0]
+        dataset["accessURL"] = accessURL[0]
     if conformsTo:
-        datasets["conformsTo"] = conformsTo[0]["uri"]
+        dataset["conformsTo"] = conformsTo[0]["uri"]
     datasets[id_str] = dataset
 
 
