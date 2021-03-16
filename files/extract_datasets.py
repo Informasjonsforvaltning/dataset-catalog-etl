@@ -15,7 +15,6 @@ datasets = {}
 for id_dict in dict_list:
     dataset = {}
     id_str = id_dict["_id"]
-    dataset["_id"] = id_str
     if id_dict.get("downloadURL"):
         dataset["downloadURL"] = id_dict["downloadURL"]
     if id_dict.get("accessURL"):

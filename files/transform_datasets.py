@@ -20,7 +20,7 @@ def transform(inputfile):
             transformed_dataset["accessURL"] = fix_url_list(datasets[dataset]["accessURL"])
         if datasets[dataset].get("conformsTo"):
             transformed_dataset["conformsTo"] = fix_conforms_to_list(datasets[dataset]["conformsTo"])
-        transformed[dataset["_id"]] = dataset
+        transformed[dataset] = transformed_dataset
     return transformed
 
 
