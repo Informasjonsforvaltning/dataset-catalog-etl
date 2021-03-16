@@ -10,10 +10,9 @@ args = parser.parse_args()
 def transform(inputfile):
 
     datasets = openfile(inputfile)
-
     transformed = {}
     for dataset in datasets:
-        print(str(dataset))
+        print("Dataset: " + str(dataset))
         transformed_dataset = {}
         if dataset.get("downloadURL"):
             transformed_dataset["downloadURL"] = fix_url_list(dataset["downloadURL"])
