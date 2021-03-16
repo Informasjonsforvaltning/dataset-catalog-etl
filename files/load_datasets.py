@@ -1,43 +1,23 @@
 import json
-import urllib.request
+import os
+from pymongo import MongoClient
 import argparse
-import requests
 
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
+connection = MongoClient(
+    f"""mongodb://{os.environ['MONGO_USERNAME']}:{os.environ['MONGO_PASSWORD']}@mongodb:27017/datasetCatalog?authSource=admin&authMechanism=SCRAM-SHA-1""")
+db = connection.datasetCatalog
 
-output_file = open('./tmp/load_datasets_output.txt', 'w')
-error_file = open('./tmp/load_datasets_errors.txt', 'w')
-token_file = open('./tmp/token.txt')
-
-token = str([line.rstrip('\n') for line in token_file][0])
-catalogs = "./tmp/transformed_catalogs.json"
-
-with open(catalogs) as catalog_file:
-    data = json.load(catalog_file)
-
-    for catalog in data:
-        orgId = catalog['id']
-
-        try:
-
-            inputfileName = args.outputdirectory + "transformed_datasets_" + orgId + ".json"
-            with open(inputfileName) as json_file:
-                data_datasets = json.load(json_file)
-
-                for dataset in data_datasets:
-                    uploadUrl = 'http://dataset-catalog:8080/catalogs/' + orgId + '/datasets/' + dataset['id']
-                    json_data = json.dumps(dataset)
-
-                    try:
-                        rsp = requests.patch(uploadUrl, json_data, headers={'content-type': 'application/json', 'accept': 'application/json', 'Authorization': 'Bearer ' + token})
-                        rsp.raise_for_status()
-                        output_file.write(f'{rsp.status_code}' + ': ' + json_data + "\n")
-
-                    except requests.HTTPError as err:
-                        print(f'{err}' + ': ' + dataset["title"].get("nb"))
-                        error_file.write(f'{err}' + ': ' + json_data + "\n")
-        except BaseException as err:
-            print(f'{orgId} - {err}')
+with open(args.outputdirectory + 'datasets_transformed.json') as transformed_file:
+    transformed_json = json.load(transformed_file)
+    for mongo_id in transformed_json:
+        print("Mongo_id: " + mongo_id)
+        values = transformed_json[mongo_id]
+        to_be_updated = {"downloadURL": values["issued"],
+                         "accessURL": values["modified"],
+                         "conformsTo": values["conformsTo"]}
+        print("To be updated: " + str(to_be_updated))
+        print(db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))

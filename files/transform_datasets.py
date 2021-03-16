@@ -13,12 +13,13 @@ def transform(inputfile):
 
     transformed = {}
     for dataset in datasets:
-        if dataset["downloadURL"] is not None and dataset["downloadURL"][0][:13] == 'http://hotell':
-            dataset["downloadURL"][0] = fix_url(dataset["downloadURL"][0])
-        if dataset["accessURL"] is not None and dataset["accessURL"][0][:13] == 'http://hotell':
-            dataset["accessURL"][0] = fix_url(dataset["accessURL"][0])
-        if dataset["conformsTo"] is not None and dataset["conformsTo"][0][:13] == 'http://hotell':
-            dataset["conformsTo"][0] = fix_url(dataset["conformsTo"][0])
+        transformed_dataset = {}
+        if dataset["downloadURL"] is not None:
+            transformed_dataset["downloadURL"] = fix_url_list(dataset["downloadURL"])
+        if dataset["accessURL"] is not None:
+            transformed_dataset["accessURL"] = fix_url_list(dataset["accessURL"])
+        if dataset["conformsTo"] is not None:
+            transformed_dataset["conformsTo"] = fix_conforms_to_list(dataset["conformsTo"])
         transformed[dataset["_id"]] = dataset
     return transformed
 
@@ -26,6 +27,27 @@ def transform(inputfile):
 def fix_url(url):
     new_url = 'https' + url[4:]
     return new_url
+
+
+def fix_conforms_to_list(conforms_list):
+    new_list = []
+    for conforms in conforms_list:
+        url = conforms.get("uri")
+        fixed_conforms = conforms
+        if url and len(url) > 13 and url[:13] == 'http://hotell':
+            fixed_conforms["uri"] = fix_url(url)
+        new_list.append(fixed_conforms)
+    return new_list
+
+
+def fix_url_list(url_list):
+    new_list = []
+    for url in url_list:
+        if len(url) > 13 and url[:13] == 'http://hotell':
+            new_list.append(fix_url(url))
+        else:
+            new_list.append(url)
+    return new_list
 
 
 def openfile(file_name):

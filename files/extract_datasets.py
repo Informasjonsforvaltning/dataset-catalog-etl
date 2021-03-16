@@ -15,16 +15,16 @@ datasets = {}
 for id_dict in dict_list:
     dataset = {}
     id_str = id_dict["_id"]
-    downloadURL = id_dict["downloadURL"] if id_dict.get("downloadURL") else None
-    accessURL = id_dict["accessURL"] if id_dict.get("accessURL") else None
-    conformsTo = id_dict["conformsTo"] if id_dict.get("conformsTo") else None
     dataset["_id"] = id_str
+    downloadURL = id_dict.get("downloadURL")
+    accessURL = id_dict.get("accessURL")
+    conformsTo = id_dict.get("conformsTo")
     if downloadURL:
-        dataset["downloadURL"] = downloadURL[0]
+        dataset["downloadURL"] = downloadURL
     if accessURL:
-        dataset["accessURL"] = accessURL[0]
+        dataset["accessURL"] = accessURL
     if conformsTo:
-        dataset["conformsTo"] = conformsTo[0]["uri"]
+        dataset["conformsTo"] = conformsTo
     datasets[id_str] = dataset
 
 
