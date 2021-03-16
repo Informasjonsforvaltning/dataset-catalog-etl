@@ -16,18 +16,11 @@ for id_dict in dict_list:
     dataset = {}
     id_str = id_dict["_id"]
     dataset["_id"] = id_str
-    downloadURL = id_dict.get("downloadURL")
-    accessURL = id_dict.get("accessURL")
-    conformsTo = id_dict.get("conformsTo")
-    if downloadURL:
-        dataset["downloadURL"] = downloadURL
-    if accessURL:
-        dataset["accessURL"] = accessURL
-    if conformsTo:
-        dataset["conformsTo"] = conformsTo
+    dataset["downloadURL"] = id_dict.get("downloadURL")
+    dataset["accessURL"] = id_dict.get("accessURL")
+    dataset["conformsTo"] = id_dict.get("conformsTo")
     datasets[id_str] = dataset
 
 
 with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
     json.dump(datasets, outfile, ensure_ascii=False, indent=4)
-
