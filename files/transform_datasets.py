@@ -14,11 +14,11 @@ def transform(inputfile):
     for dataset in datasets:
         print("Dataset: " + str(dataset))
         transformed_dataset = {}
-        if dataset.get("downloadURL"):
+        if datasets[dataset].get("downloadURL"):
             transformed_dataset["downloadURL"] = fix_url_list(dataset["downloadURL"])
-        if dataset.get("accessURL"):
+        if datasets[dataset].get("accessURL"):
             transformed_dataset["accessURL"] = fix_url_list(dataset["accessURL"])
-        if dataset.get("conformsTo"):
+        if datasets[dataset].get("conformsTo"):
             transformed_dataset["conformsTo"] = fix_conforms_to_list(dataset["conformsTo"])
         transformed[dataset["_id"]] = dataset
     return transformed
