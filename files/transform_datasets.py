@@ -13,6 +13,7 @@ def transform(inputfile):
 
     transformed = {}
     for dataset in datasets:
+        print(str(dataset))
         transformed_dataset = {}
         if dataset.get("downloadURL"):
             transformed_dataset["downloadURL"] = fix_url_list(dataset["downloadURL"])
