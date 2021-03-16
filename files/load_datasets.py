@@ -13,11 +13,16 @@ db = connection.datasetCatalog
 
 with open(args.outputdirectory + 'datasets_transformed.json') as transformed_file:
     transformed_json = json.load(transformed_file)
+
     for mongo_id in transformed_json:
         print("Mongo_id: " + mongo_id)
+        to_be_updated = {}
         values = transformed_json[mongo_id]
-        to_be_updated = {"downloadURL": values["downloadURL"],
-                         "accessURL": values["accessURL"],
-                         "conformsTo": values["conformsTo"]}
+        if values.get("downloadURL"):
+            to_be_updated["downloadURL"] = values["downloadURL"]
+        if values.get("accessURL"):
+            to_be_updated["accessURL"] = values["accessURL"]
+        if values.get("conformsTo"):
+            to_be_updated["conformsTo"] = values["conformsTo"]
         print("To be updated: " + str(to_be_updated))
 #        print(db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))
