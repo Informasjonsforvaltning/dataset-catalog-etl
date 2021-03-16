@@ -20,4 +20,4 @@ with open(args.outputdirectory + 'datasets_transformed.json') as transformed_fil
                          "accessURL": values["modified"],
                          "conformsTo": values["conformsTo"]}
         print("To be updated: " + str(to_be_updated))
-        print(db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))
+#        print(db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))
