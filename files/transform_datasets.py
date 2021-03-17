@@ -13,12 +13,13 @@ def transform(inputfile):
     transformed = {}
     for dataset in datasets:
         print("Dataset: " + str(dataset))
+        dist_list = []
+        changed = False
         for dist in datasets[dataset]:
             download_url = dist.get("downloadURL")
             access_url = dist.get("accessURL")
             page = dist.get("page")
             conforms_to = dist.get("conformsTo")
-            changed = False
             if download_url:
                 fixed = fix_url_list(download_url)
                 if fixed:
@@ -39,8 +40,9 @@ def transform(inputfile):
                 if fixed:
                     dist["conformsTo"] = fixed
                     changed = True
-            if changed:
-                transformed[dataset] = dist
+            dist_list.append(dist)
+        if changed:
+            transformed[dataset] = dist_list
     return transformed
 
 
