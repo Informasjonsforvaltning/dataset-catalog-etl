@@ -16,6 +16,7 @@ def transform(inputfile):
         for dist in datasets[dataset]:
             download_url = dist.get("downloadURL")
             access_url = dist.get("accessURL")
+            page = dist.get("page")
             conforms_to = dist.get("conformsTo")
             changed = False
             if download_url:
@@ -27,6 +28,11 @@ def transform(inputfile):
                 fixed = fix_url_list(access_url)
                 if fixed:
                     dist["accessURL"] = fixed
+                    changed = True
+            if page:
+                fixed = fix_conforms_to_list(page)
+                if fixed:
+                    dist["page"] = fixed
                     changed = True
             if conforms_to:
                 fixed = fix_conforms_to_list(conforms_to)
