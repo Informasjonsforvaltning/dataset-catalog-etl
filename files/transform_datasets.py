@@ -13,7 +13,7 @@ def transform(inputfile):
     transformed = {}
     for dataset in datasets:
         print("Dataset: " + str(dataset))
-        for dist in dataset:
+        for dist in datasets[dataset]:
             download_url = dist.get("downloadURL")
             access_url = dist.get("accessURL")
             conforms_to = dist.get("conformsTo")
