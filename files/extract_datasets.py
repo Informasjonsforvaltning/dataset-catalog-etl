@@ -15,12 +15,15 @@ datasets = {}
 for id_dict in dict_list:
     dataset = {}
     id_str = id_dict["_id"]
-    if id_dict.get("downloadURL"):
-        dataset["downloadURL"] = id_dict["downloadURL"]
-    if id_dict.get("accessURL"):
-        dataset["accessURL"] = id_dict["accessURL"]
-    if id_dict.get("conformsTo"):
-        dataset["conformsTo"] = id_dict["conformsTo"]
+    dist_list = id_dict.get("distribution")
+    dist_list = dist_list if dist_list else []
+    for dist in dist_list:
+        if id_dict.get("downloadURL"):
+            dataset["downloadURL"] = id_dict["downloadURL"]
+        if id_dict.get("accessURL"):
+            dataset["accessURL"] = id_dict["accessURL"]
+        if id_dict.get("conformsTo"):
+            dataset["conformsTo"] = id_dict["conformsTo"]
     datasets[id_str] = dataset
 
 
