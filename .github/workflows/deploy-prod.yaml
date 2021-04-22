@@ -3,7 +3,7 @@ name: Build and deploy to prod when merged to master
 on:
   push:
     branches:
-      - chore/hos/etl-mongodb-to-mongodb
+      - chore/hos/etl-fix-http-urls
 
 jobs:
   build-and-deploy:
@@ -11,46 +11,46 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Setup pyhton environment
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.7
+    - name: Setup python environment
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
 
-      - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          service_account_email: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_KEY }}
+    - name: Setup gcloud CLI
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        service_account_email: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_EMAIL }}
+        service_account_key: ${{ secrets.GCP_SA_DIGDIR_FDK_GCR_KEY }}
 
-      - run: gcloud auth configure-docker eu.gcr.io
+    - run: gcloud auth configure-docker eu.gcr.io
 
-      - name: Build Docker image with GitHub commit sha tag and staging tag
-        run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:latest -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA
+    - name: Build Docker image with GitHub commit sha tag and staging tag
+      run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:latest -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA
 
-      - name: Publish docker image to Google Cloud
-        run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl
+    - name: Publish docker image to Google Cloud
+      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl -a
 
-      - name: Apply Helm template
-        run: |
-          helm repo add dataset-catalog-etl https://informasjonsforvaltning.github.io/dataset-catalog-etl/
-          helm fetch --untar --untardir ./helm dataset-catalog-etl/dataset-catalog-etl
-          helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA" -f ./helm-sources/values/prod.yaml ./helm/dataset-catalog-etl/  > ./kubectlapply.yaml
-          chmod o+w ./kubectlapply.yaml
-          cat kubectlapply.yaml
+    - name: Apply Helm template
+      run: |
+        helm repo add dataset-catalog-etl https://informasjonsforvaltning.github.io/dataset-catalog-etl/
+        helm fetch --untar --untardir ./helm dataset-catalog-etl/dataset-catalog-etl
+        helm template --set DOCKER_IMAGE_NAME="eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA" -f ./helm-sources/values/prod.yaml ./helm/dataset-catalog-etl/  > ./kubectlapply.yaml
+        chmod o+w ./kubectlapply.yaml
+        cat kubectlapply.yaml
 
-      - name: Get kubeconfig file from GKE
-        uses: machine-learning-apps/gke-kubeconfig@master
-        with:
-          application_credentials: ${{ secrets.DIGDIR_FDK_PROD_AUTODEPLOY }}
-          project_id: digdir-fdk-prod
-          location_zone: europe-north1-a
-          cluster_name: digdir-fdk-prod
+    - name: Get kubeconfig file from GKE
+      uses: machine-learning-apps/gke-kubeconfig@master
+      with:
+        application_credentials: ${{ secrets.DIGDIR_FDK_PROD_AUTODEPLOY }}
+        project_id: digdir-fdk-prod
+        location_zone: europe-north1-a
+        cluster_name: digdir-fdk-prod
 
-      - name: Deploy to staging
-        uses: docker://bitnami/kubectl:latest
-        env:
-          KUBECONFIG: '/github/workspace/.kube/config'
-        with:
-          args: "apply -f ./kubectlapply.yaml --force"
+    - name: Deploy to staging
+      uses: docker://bitnami/kubectl:latest
+      env:
+        KUBECONFIG: '/github/workspace/.kube/config'
+      with:
+        args: "apply -f ./kubectlapply.yaml --force"

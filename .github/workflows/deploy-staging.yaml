@@ -3,7 +3,7 @@ name: Build and deploy to staging when pull request is created
 on:
   push:
     branches:
-      - never
+      - no
 
 jobs:
   build-and-deploy:
@@ -30,7 +30,7 @@ jobs:
       run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:latest -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA
 
     - name: Publish docker image to Google Cloud
-      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl
+      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl -a
 
     - name: Apply Helm template
       run: |

@@ -3,7 +3,7 @@ name: Build and deploy to demo when merged to master
 on:
   push:
     branches:
-      - never
+      - chore/hos/etl-fix-http-urls
 
 jobs:
   build-and-deploy:
@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup pyhton environment
+    - name: Setup python environment
       uses: actions/setup-python@v1
       with:
           python-version: 3.7
@@ -30,7 +30,7 @@ jobs:
       run: docker build . -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:latest -t eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl:$GITHUB_SHA
 
     - name: Publish docker image to Google Cloud
-      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl
+      run: docker -- push eu.gcr.io/digdir-fdk-infra/dataset-catalog-etl -a
 
     - name: Apply Helm template
       run: |

@@ -1,60 +1,95 @@
 import json
-import urllib.request
 import argparse
-import re
-import os
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--outputdirectory', help="the path to the directory of the output files", required=True)
 args = parser.parse_args()
 
-catalogs = "./tmp/catalogs.json"
-match_string = '\d{9}$'
-match_string_json = '(\d{9}).json$'
-environment = '' if os.environ['NAMESPACE'] == 'prod' else '.' + os.environ['NAMESPACE']
-orgcat_uri = 'https://organization-catalogue' + environment + '.fellesdatakatalog.digdir.no/organizations/'
+
+def transform(inputfile):
+
+    datasets = openfile(inputfile)
+    transformed = {}
+    for dataset in datasets:
+        print("Dataset: " + str(dataset))
+        dist_list = []
+        changed = False
+        for dist in datasets[dataset]:
+            download_url = dist.get("downloadURL")
+            access_url = dist.get("accessURL")
+            page = dist.get("page")
+            conforms_to = dist.get("conformsTo")
+            if download_url:
+                fixed = fix_url_list(download_url)
+                if fixed:
+                    dist["downloadURL"] = fixed
+                    changed = True
+            if access_url:
+                fixed = fix_url_list(access_url)
+                if fixed:
+                    dist["accessURL"] = fixed
+                    changed = True
+            if page:
+                fixed = fix_conforms_to_list(page)
+                if fixed:
+                    dist["page"] = fixed
+                    changed = True
+            if conforms_to:
+                fixed = fix_conforms_to_list(conforms_to)
+                if fixed:
+                    dist["conformsTo"] = fixed
+                    changed = True
+            dist_list.append(dist)
+        if changed:
+            transformed[dataset] = dist_list
+    return transformed
 
 
-def getPublisherId(publisher):
-    if publisher.get('id'):
-        ids = re.findall(match_string, publisher['id'])
-        if len(ids) > 0:
-            return ids[0]
-    if publisher.get('uri'):
-        ids = re.findall(match_string, publisher['uri'])
-        if len(ids) > 0:
-            return ids[0]
-        ids = re.findall(match_string_json, publisher['uri'])
-        if len(ids) > 0:
-            return ids[0]
-    return None
+def fix_url(url):
+    new_url = 'https' + url[4:]
+    return new_url
 
 
-with open(catalogs) as catalog_file:
-    embedded = json.load(catalog_file).get("_embedded")
-    data = embedded.get("catalogs") if embedded else []
+def check_string(string):
+    if string and len(string) > 13 and string[:13] == 'http://hotell':
+        return True
+    return False
 
-    for catalog in data:
-        orgId = catalog['id']
-        transformed = []
 
-        with open(f'./tmp/datasets-'+orgId+'.json') as dataset_file:
-            embedded = json.load(dataset_file).get("_embedded")
-            datasets = embedded.get("datasets") if embedded else []
+def fix_conforms_to_list(conforms_list):
+    new_list = []
+    changed = False
+    for conforms in conforms_list:
+        url = conforms.get("uri")
+        fixed_conforms = conforms
+        if check_string(url):
+            fixed_conforms["uri"] = fix_url(url)
+            changed = True
+        new_list.append(fixed_conforms)
+    return new_list if changed else None
 
-            for dataset in datasets:
-                updated_publisher = dataset.get('publisher')
-                publisher_id = getPublisherId(updated_publisher)
-                if publisher_id:
-                    updated_publisher['id'] = publisher_id
-                    updated_publisher['uri'] = orgcat_uri + publisher_id
-                else:
 
-                    updated_publisher = {'uri': orgcat_uri + orgId, 'id': orgId}
-                    print(f'No publisher ID found: {orgId} - ' + dataset.get('id'))
+def fix_url_list(url_list):
+    new_list = []
+    changed = False
+    for url in url_list:
+        if check_string(url):
+            new_list.append(fix_url(url))
+            changed = True
+        else:
+            new_list.append(url)
+    return new_list if changed else None
 
-                dataset["publisher"] = updated_publisher
-                transformed.append(dataset)
 
-            with open(args.outputdirectory + 'transformed_datasets_' + orgId + '.json', 'w', encoding="utf-8") as outfile:
-                json.dump(transformed, outfile, ensure_ascii=False, indent=4)
+def openfile(file_name):
+    with open(file_name) as json_file:
+        return json.load(json_file)
+
+
+inputfileName = args.outputdirectory + "mongo_datasets.json"
+outputfileName = args.outputdirectory + "datasets_transformed.json"
+
+
+with open(outputfileName, 'w', encoding="utf-8") as outfile:
+    json.dump(transform(inputfileName), outfile, ensure_ascii=False, indent=4)
