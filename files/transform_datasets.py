@@ -37,7 +37,9 @@ Objective
 
 Formål
 """
-        return_dict[key] = "" + description.get(key) + connection_string + str_dict["objective"][key]
+        description_key_str = description.get(key)
+        description_key_str = description_key_str if description_key_str else ""
+        return_dict[key] = description_key_str + connection_string + str_dict["objective"][key]
     return return_dict
 
 
