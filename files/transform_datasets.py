@@ -11,12 +11,12 @@ def transform(inputfile):
 
     datasets = openfile(inputfile)
     transformed_datasets = {}
-    for dataset in datasets:
-        transformed_dataset = dataset.get("description")
-        print("Dataset: " + str(dataset))
-        if dataset.get("objective"):
-            transformed_dataset = desc_dict(dataset)
-        transformed_datasets[dataset["id"]] = transformed_dataset
+    for dataset_key in datasets:
+        transformed_dataset = datasets[dataset_key].get("description")
+        print("Dataset: " + str(datasets[dataset_key]))
+        if datasets[dataset_key].get("objective"):
+            transformed_dataset = desc_dict(datasets[dataset_key])
+        transformed_datasets[dataset_key] = transformed_dataset
     return transformed_datasets
 
 
