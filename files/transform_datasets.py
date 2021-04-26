@@ -32,15 +32,15 @@ def desc_dict(str_dict):
         if key == "en":
             connection_string = """
 
+---
 
-Objective
-"""
+Objective: """
         else:
             connection_string = """
 
+---
 
-Formål
-"""
+Formål: """
         description_key_str = description.get(key)
         description_key_str = description_key_str if description_key_str else ""
         return_dict[key] = description_key_str + connection_string + str_dict["objective"][key]
