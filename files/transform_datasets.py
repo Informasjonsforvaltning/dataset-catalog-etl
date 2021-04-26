@@ -15,11 +15,11 @@ def transform(inputfile):
     count_transformed = 0
     print("Total number of extracted datasets: " + str(len(datasets)))
     for dataset_key in datasets:
-        transformed_dataset = datasets[dataset_key].get("description")
+        transformed_description = datasets[dataset_key].get("description")
         if datasets[dataset_key].get("objective"):
             count_objective += 1
-            transformed_dataset = desc_dict(datasets[dataset_key])
-        transformed_datasets[dataset_key] = transformed_dataset
+            transformed_description = desc_dict(datasets[dataset_key])
+        transformed_datasets[dataset_key] = {"description": transformed_description}
         count_transformed += 1
     print("Number of datasets w/objectives found: " + str(count_objective))
     print("Datasets transformed : " + str(count_transformed))
