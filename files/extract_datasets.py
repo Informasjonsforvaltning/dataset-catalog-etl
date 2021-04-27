@@ -13,11 +13,11 @@ db = connection.datasetCatalog
 dict_list = list(db.datasets.find())
 datasets = {}
 for id_dict in dict_list:
-    dataset = {}
     id_str = id_dict["_id"]
     datasets[id_str] = {}
     datasets[id_str]["objective"] = id_dict.get("objective")
     datasets[id_str]["description"] = id_dict.get("description")
+print("Total number of extracted datasets: " + str(len(datasets)))
 
 with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
     json.dump(datasets, outfile, ensure_ascii=False, indent=4)
