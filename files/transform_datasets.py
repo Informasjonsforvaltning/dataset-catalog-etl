@@ -12,7 +12,6 @@ def transform(inputfile):
     datasets = openfile(inputfile)
     transformed_datasets = {}
     count_objective = 0
-    count_transformed = 0
     print("Total number of extracted datasets: " + str(len(datasets)))
     for dataset_key in datasets:
         transformed_description = None
