@@ -16,7 +16,7 @@ def transform(inputfile):
     print("Total number of extracted catalogs: " + str(len(catalogs)))
     for catalog_key in catalogs:
         catalogs[catalog_key].get("_id")
-        transformed_uri = transform_uri(catalogs[catalog_key])
+        transformed_uri = transform_uri(catalogs[catalog_key].get("uri"))
         transformed_catalogs[catalog_key] = {"uri": transformed_uri}
     return transformed_catalogs
 
