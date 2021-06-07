@@ -21,21 +21,26 @@ spec:
     spec:
       containers:
         - env:
-            - name: NAMESPACE
-              valueFrom:
-                secretKeyRef:
-                  name: common-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
-                  key: NAMESPACE
-            - name: MONGO_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
-                  key: MONGO_USERNAME
-            - name: MONGO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
-                  key: MONGO_PASSWORD
+          - name: NAMESPACE
+            valueFrom:
+              secretKeyRef:
+                name: common-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: NAMESPACE
+          - name: MONGO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: MONGO_USERNAME
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: MONGO_PASSWORD
+          - name: FDK_REGISTRATION_BASE_URI
+            valueFrom:
+              secretKeyRef:
+                name: commonurl-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: FDK_REGISTRATION_BASE_URI
           image: {{ required "Missing value DOCKER_IMAGE_NAME" .Values.DOCKER_IMAGE_NAME }}
           imagePullPolicy: Always
           name: dataset-catalog-etl

@@ -11,12 +11,10 @@ connection = MongoClient(
     f"""mongodb://{os.environ['MONGO_USERNAME']}:{os.environ['MONGO_PASSWORD']}@mongodb:27017/datasetCatalog?authSource=admin&authMechanism=SCRAM-SHA-1""")
 db = connection.datasetCatalog
 
-with open(args.outputdirectory + 'datasets_transformed.json') as datasets_file:
-    transformed_json = json.load(datasets_file)
+with open(args.outputdirectory + 'catalogs_transformed.json') as catalogs_file:
+    transformed_json = json.load(catalogs_file)
 
     for mongo_id in transformed_json:
         to_be_updated = transformed_json[mongo_id]
-        if to_be_updated and to_be_updated.get('description'):
-            print("Mongo_id: " + mongo_id + " || To be updated: " + str(to_be_updated))
-            print(db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))
-        print(db.datasets.find_one_and_update({'_id': mongo_id}, {'$unset': {"objective": "", "accessRightsComment": "", "descriptionFormatted": ""}}))
+        print(db.catalogs.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))
+

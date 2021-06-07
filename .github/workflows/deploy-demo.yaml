@@ -48,7 +48,7 @@ jobs:
         location_zone: europe-north1-a
         cluster_name: digdir-fdk-dev
 
-    - name: Deploy to staging
+    - name: Deploy to demo
       uses: docker://bitnami/kubectl:latest
       env:
         KUBECONFIG: '/github/workspace/.kube/config'
