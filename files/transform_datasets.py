@@ -16,7 +16,7 @@ def transform(inputfile):
     print("Total number of extracted datasets: " + str(len(datasets)))
     for dataset_key in datasets:
         datasets[dataset_key].get("_id")
-        transformed_uri = create_uri(datasets[dataset_key].get("uri"))
+        transformed_uri = create_uri(datasets[dataset_key])
         transformed_datasets[dataset_key] = {"uri": transformed_uri}
     return transformed_datasets
 
