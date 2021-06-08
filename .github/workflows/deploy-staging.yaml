@@ -3,7 +3,7 @@ name: Build and deploy to staging when pull request is created
 on:
   push:
     branches:
-      - chore/hos/catalog-uri-etl
+      - no
 
 jobs:
   build-and-deploy:
@@ -13,10 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup pyhton environment
+    - name: Setup python environment
       uses: actions/setup-python@v2
       with:
-          python-version: 3.7
+        python-version: 3.7
 
     - name: Setup gcloud CLI
       uses: google-github-actions/setup-gcloud@master
