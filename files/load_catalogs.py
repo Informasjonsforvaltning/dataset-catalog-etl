@@ -18,5 +18,5 @@ with open(args.outputdirectory + 'catalogs_transformed.json') as catalogs_file:
     for mongo_id in transformed_json:
         to_be_updated = transformed_json[mongo_id]
         print(db.catalogs.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))
-    print("Total number of catalogs updated: " + total_updated)
+    print("Total number of catalogs updated: " + str(total_updated))
 
