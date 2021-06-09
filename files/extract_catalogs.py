@@ -10,14 +10,14 @@ connection = MongoClient(
     f"""mongodb://{os.environ['MONGO_USERNAME']}:{os.environ['MONGO_PASSWORD']}@mongodb:27017/datasetCatalog?authSource=admin&authMechanism=SCRAM-SHA-1""")
 
 db = connection.datasetCatalog
-dict_list = list(db.catalogs.find())
-catalogs = {}
+dict_list = list(db.datasets.find())
+datasets = {}
 for id_dict in dict_list:
     id_str = id_dict["_id"]
-    catalogs[id_str] = {}
-    catalogs[id_str]["uri"] = id_dict.get("uri")
-    catalogs[id_str]["references"] = id_dict.get("references")
-print("Total number of extracted catalogs: " + str(len(catalogs)))
+    datasets[id_str] = {}
+    datasets[id_str]["uri"] = id_dict.get("uri")
+    datasets[id_str]["references"] = id_dict.get("references")
+print("Total number of extracted catalogs: " + str(len(datasets)))
 
 with open(args.outputdirectory + 'mongo_catalogs.json', 'w', encoding="utf-8") as outfile:
-    json.dump(catalogs, outfile, ensure_ascii=False, indent=4)
+    json.dump(datasets, outfile, ensure_ascii=False, indent=4)
