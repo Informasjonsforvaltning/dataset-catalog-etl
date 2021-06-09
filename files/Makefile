@@ -7,6 +7,7 @@ extract:
 
 transform:
 	echo "Transforming catalogs...."
+	python3 ./transform_uris.py -o ./tmp/
 	python3 ./transform_catalogs.py -o ./tmp/
 
 load:

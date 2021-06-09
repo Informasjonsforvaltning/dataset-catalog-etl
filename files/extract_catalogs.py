@@ -16,6 +16,7 @@ for id_dict in dict_list:
     id_str = id_dict["_id"]
     catalogs[id_str] = {}
     catalogs[id_str]["uri"] = id_dict.get("uri")
+    catalogs[id_str]["references"] = id_dict.get("references")
 print("Total number of extracted catalogs: " + str(len(catalogs)))
 
 with open(args.outputdirectory + 'mongo_catalogs.json', 'w', encoding="utf-8") as outfile:
