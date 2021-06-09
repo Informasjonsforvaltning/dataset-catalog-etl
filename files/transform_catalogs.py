@@ -40,7 +40,7 @@ def transform_dataset(dataset, dataset_uris):
             transformed_references.append(reference)
     old_dataset_uri = dataset.get("uri")
     transformed_dataset = {}
-    if len(transformed_references) == 0:
+    if len(transformed_references) > 0:
         transformed_dataset["references"] = transformed_references
     if old_dataset_uri:
         new_dataset_uri = dataset_uris.get(old_dataset_uri)
