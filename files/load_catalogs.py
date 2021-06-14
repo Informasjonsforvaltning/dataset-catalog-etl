@@ -20,4 +20,3 @@ with open(args.outputdirectory + 'transformed_datasets.json') as catalogs_file:
         print(db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated}))
         total_updated += 1
     print("Total number of catalogs updated: " + str(total_updated))
-
