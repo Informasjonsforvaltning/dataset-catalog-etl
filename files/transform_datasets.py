@@ -34,7 +34,7 @@ def transform_dataset(dataset, dataservices):
         modified_services = []
         for service in access_service:
             endpoint = service.get("endpointDescription")
-            fdk_id = endpoint[0].get("uri") if len(endpoint) > 0 else None
+            fdk_id = endpoint[0].get("uri") if endpoint and len(endpoint) > 0 else None
             if fdk_id:
                 print("Updating service " + str(fdk_id) + " for dataset: " + str(dataset["ds_id"]))
                 dataservice = dataservices.get(fdk_id)
