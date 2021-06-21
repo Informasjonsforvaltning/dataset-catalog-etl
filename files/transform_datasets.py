@@ -37,7 +37,7 @@ def transform_dataset(dataset, dataservices):
             dataservice = dataservices.get(fdk_id)
             if dataservice:
                 modified_service = service
-                modified_service["uri"] = dataservice.get["uri"]
+                modified_service["uri"] = dataservice.get("uri")
                 modified_services.append(modified_service)
             else:
                 modified_services.append(service)
