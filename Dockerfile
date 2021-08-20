@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 COPY /files /etl
 
 COPY app /usr/src/app/
-WORKDIR /etl
+WORKDIR /usr/src/app/
 
 RUN python -m pip install --upgrade pip
 RUN pip3 install --no-cache-dir -r requirements.txt
