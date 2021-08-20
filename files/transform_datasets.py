@@ -26,7 +26,7 @@ def transform(ds_file, mt_file):
         json.dump(failed, err_file, ensure_ascii=False, indent=4)
     return transformed_datasets
 
-
+# TODO: Legg inn sjekk på uri
 def transform_dataset(dataset, media_types):
     distribution = dataset.get("distribution")
     distribution = distribution if distribution else []
