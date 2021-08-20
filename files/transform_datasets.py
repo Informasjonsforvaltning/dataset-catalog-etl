@@ -59,7 +59,7 @@ def openfile(file_name):
 
 
 datasets_file = args.outputdirectory + "mongo_datasets.json"
-media_types_file = args.outputdirectory + "media_types.json"
+media_types_file = "media_types.json"
 outputfileName = args.outputdirectory + "transformed_datasets.json"
 
 
