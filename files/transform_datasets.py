@@ -8,15 +8,14 @@ parser.add_argument('-o', '--outputdirectory', help="the path to the directory o
 args = parser.parse_args()
 
 
-def transform(inputfile, inputfile2):
-    dataservices = openfile(inputfile)
-    datasets = openfile(inputfile2)
+def transform(ds_file, mt_file):
+    datasets = openfile(ds_file)
+    media_types = openfile(mt_file)
     transformed_datasets = {}
-    print("Total number of extracted dataservices: " + str(len(dataservices)))
     print("Total number of extracted datasets: " + str(len(datasets)))
     transformed_count = 0
     for dataset_key in datasets:
-        transformed = transform_dataset(datasets[dataset_key], dataservices)
+        transformed = transform_dataset(datasets[dataset_key], media_types)
         if transformed:
             transformed_datasets[dataset_key] = transformed
             transformed_count += 1
@@ -24,31 +23,20 @@ def transform(inputfile, inputfile2):
     return transformed_datasets
 
 
-def transform_dataset(dataset, dataservices):
+def transform_dataset(dataset, media_types):
     distribution = dataset.get("distribution")
     distribution = distribution if distribution else []
     modified_distributions = []
     for dist in distribution:
-        access_service = dist.get("accessService")
-        access_service = access_service if access_service else []
-        modified_services = []
-        for service in access_service:
-            endpoint = service.get("endpointDescription")
-            fdk_id = endpoint[0].get("uri") if endpoint and len(endpoint) > 0 else None
-            if fdk_id:
-                print("Updating service " + str(fdk_id) + " for dataset: " + str(dataset["ds_id"]))
-                dataservice = dataservices.get(fdk_id)
-                if dataservice:
-                    modified_service = service
-                    print("Updating: " + dataservice.get("uri"))
-                    modified_service["uri"] = dataservice.get("uri")
-                    modified_services.append(modified_service)
-                else:
-                    modified_services.append(service)
-            else:
-                modified_services.append(service)
+        formats = dist.get("format")
+        formats = formats if formats else []
+        modified_formats = []
+        for fmt in formats:
+            modified_fmt = match_format(fmt, media_types)
+            if modified_fmt:
+                modified_formats.append(modified_fmt)
         modified_distribution = dist
-        modified_distribution["accessService"] = modified_services
+        modified_distribution["format"] = modified_formats
         modified_distributions.append(modified_distribution)
     transformed_dataset = {}
     if len(modified_distributions) > 0:
@@ -56,15 +44,24 @@ def transform_dataset(dataset, dataservices):
     return transformed_dataset if len(transformed_dataset) > 0 else None
 
 
+def match_format(fmt, media_types):
+    for media_type in media_types:
+        if fmt == media_type.get("code"):
+            return media_type.get("uri")
+        elif fmt.lower() == media_type.get("name").lower():
+            return media_type.get("uri")
+    return None
+
+
 def openfile(file_name):
     with open(file_name) as json_file:
         return json.load(json_file)
 
 
-inputfileName = args.outputdirectory + "mongo_dataservices.json"
-inputfileName2 = args.outputdirectory + "mongo_datasets.json"
+datasets_file = args.outputdirectory + "mongo_datasets.json"
+media_types_file = args.outputdirectory + "media_types.json"
 outputfileName = args.outputdirectory + "transformed_datasets.json"
 
 
 with open(outputfileName, 'w', encoding="utf-8") as outfile:
-    json.dump(transform(inputfileName, inputfileName2), outfile, ensure_ascii=False, indent=4)
+    json.dump(transform(datasets_file, media_types_file), outfile, ensure_ascii=False, indent=4)

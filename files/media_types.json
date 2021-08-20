@@ -1,0 +1,197 @@
+[
+  {
+    "uri": "https://www.iana.org/assignments/media-types/text/csv",
+    "code": "text/csv",
+    "name": "CSV"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/gml+xml",
+    "code": "application/gml+xml",
+    "name": "GML"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/text/html",
+    "code": "text/html",
+    "name": "HTML"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/json",
+    "code": "application/json",
+    "name": "JSON"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/javascript",
+    "code": "application/javascript",
+    "name": "JSONP"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/vnd.geo+json",
+    "code": "application/vnd.geo+json",
+    "name": "geoJSON"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/geo+json",
+    "code": "application/geo+json",
+    "name": "geoJSON"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/vnd.google-earth.kml+xml",
+    "code": "application/vnd.google-earth.kml+xml",
+    "name": "KML"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.spreadsheet",
+    "code": "application/vnd.oasis.opendocument.spreadsheet",
+    "name": "ODS"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/rdf+xml",
+    "code": "application/rdf+xml",
+    "name": "RDF/XML"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/text/xml",
+    "code": "text/xml",
+    "name": "XML"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/rss+xml",
+    "code": "application/rss+xml",
+    "name": "RSS"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x-­ogc-sosi",
+    "code": "application/x-­ogc-sosi",
+    "name": "SOSI"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/text/vnd.sosi",
+    "code": "text/vnd.sosi",
+    "name": "SOSI"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x-filegdb",
+    "code": "application/x-filegdb",
+    "name": "FileGDB"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/image/tiff",
+    "code": "image/tiff",
+    "name": "TIFF"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/text/tab-separated-values",
+    "code": "text/tab-separated-values",
+    "name": "TSV"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/text/plain",
+    "code": "text/plain",
+    "name": "TXT"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.wfs",
+    "code": "application/x.wfs",
+    "name": "WFS"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.wms",
+    "code": "application/x.wms",
+    "name": "WMS"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/vnd.sealed-xls",
+    "code": "application/vnd.sealed-xls",
+    "name": "XLS"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "code": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "name": "XLSX"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/xml",
+    "code": "application/xml",
+    "name": "XML"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.yaml",
+    "code": "application/x.yaml",
+    "name": "YAML"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/octet-stream",
+    "code": "application/octet-stream",
+    "name": "SHAPE"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/ld+json",
+    "code": "application/ld+json",
+    "name": "JSON-LD"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/text/turtle",
+    "code": "text/turtle",
+    "name": "Turtle"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/n-triples",
+    "code": "application/n-triples",
+    "name": "N-Triples"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/gpx+xml",
+    "code": "application/gpx+xml",
+    "name": "GPX"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.siri",
+    "code": "application/x.siri",
+    "name": "SIRI"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.gtfs",
+    "code": "application/x.gtfs",
+    "name": "GTFS"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.gtfsrt",
+    "code": "application/x.gtfsrt",
+    "name": "GTFSRT"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.netex",
+    "code": "application/x.netex",
+    "name": "NeTEx"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/x.ualf",
+    "code": "application/x.ualf",
+    "name": "UALF"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/zip",
+    "code": "application/zip",
+    "name": "ZIP"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/pdf",
+    "code": "application/pdf",
+    "name": "PDF"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/sql",
+    "code": "application/sql",
+    "name": "SQL"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/geopackage+sqlite3",
+    "code": "application/geopackage+sqlite3",
+    "name": "GPKG"
+  },
+  {
+    "uri": "https://www.iana.org/assignments/media-types/application/vnd.sqlite3",
+    "code": "application/vnd.sqlite3",
+    "name": "SQLite"
+  }
+]

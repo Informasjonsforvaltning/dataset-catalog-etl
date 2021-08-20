@@ -4,7 +4,6 @@ all: extract transform load
 extract:
 	echo "Extracting datasets...."
 	python3 ./extract_datasets.py -o ./tmp/
-	python3 ./extract_dataservices.py -o ./tmp/
 
 transform:
 	echo "Transforming datasets...."

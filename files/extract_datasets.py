@@ -16,7 +16,7 @@ for id_dict in dict_list:
     id_str = id_dict["_id"]
     datasets[id_str] = {}
     datasets[id_str]["distribution"] = id_dict.get("distribution")
-    datasets[id_str]["ds_id"] = id_str
+    datasets[id_str]["_id"] = id_str
 print("Total number of extracted datasets (datasetCatalog): " + str(len(datasets)))
 
 with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
