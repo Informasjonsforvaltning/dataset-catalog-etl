@@ -27,20 +27,25 @@ def transform_dataset(dataset, media_types):
     distribution = dataset.get("distribution")
     distribution = distribution if distribution else []
     modified_distributions = []
+    failed_matches = []
     for dist in distribution:
         formats = dist.get("format")
         formats = formats if formats else []
         modified_formats = []
+
         for fmt in formats:
             modified_fmt = match_format(fmt, media_types)
             if modified_fmt:
                 modified_formats.append(modified_fmt)
+            else:
+                failed_matches.append(fmt)
         modified_distribution = dist
         modified_distribution["format"] = modified_formats
         modified_distributions.append(modified_distribution)
     transformed_dataset = {}
     if len(modified_distributions) > 0:
         transformed_dataset["distribution"] = modified_distributions
+    transform_errors(failed_matches)
     return transformed_dataset if len(transformed_dataset) > 0 else None
 
 
@@ -56,6 +61,12 @@ def match_format(fmt, media_types):
 def openfile(file_name):
     with open(file_name) as json_file:
         return json.load(json_file)
+
+
+def transform_errors(failed):
+    if len(failed) > 0:
+        with open("transform_errors.json", 'w', encoding="utf-8") as err_file:
+            json.dump(failed, err_file, ensure_ascii=False, indent=4)
 
 
 datasets_file = args.outputdirectory + "mongo_datasets.json"
