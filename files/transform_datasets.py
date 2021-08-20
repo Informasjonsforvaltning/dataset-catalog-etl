@@ -14,12 +14,16 @@ def transform(ds_file, mt_file):
     transformed_datasets = {}
     print("Total number of extracted datasets: " + str(len(datasets)))
     transformed_count = 0
+    failed = {}
     for dataset_key in datasets:
-        transformed = transform_dataset(datasets[dataset_key], media_types)
-        if transformed:
-            transformed_datasets[dataset_key] = transformed
+        result = transform_dataset(datasets[dataset_key], media_types)
+        if len(result["transformed"]) > 0:
+            transformed_datasets[dataset_key] = result["transformed"]
             transformed_count += 1
+        failed[dataset_key] = result["failed"]
     print("Total number of transformed datasets: " + str(transformed_count))
+    with open("transform_errors.json", 'w', encoding="utf-8") as err_file:
+        json.dump(failed, err_file, ensure_ascii=False, indent=4)
     return transformed_datasets
 
 
@@ -45,8 +49,7 @@ def transform_dataset(dataset, media_types):
     transformed_dataset = {}
     if len(modified_distributions) > 0:
         transformed_dataset["distribution"] = modified_distributions
-    transform_errors(failed_matches)
-    return transformed_dataset if len(transformed_dataset) > 0 else None
+    return {"transformed": transformed_dataset, "failed": failed_matches}
 
 
 def match_format(fmt, media_types):
@@ -61,12 +64,6 @@ def match_format(fmt, media_types):
 def openfile(file_name):
     with open(file_name) as json_file:
         return json.load(json_file)
-
-
-def transform_errors(failed):
-    if len(failed) > 0:
-        with open("transform_errors.json", 'w', encoding="utf-8") as err_file:
-            json.dump(failed, err_file, ensure_ascii=False, indent=4)
 
 
 datasets_file = args.outputdirectory + "mongo_datasets.json"
