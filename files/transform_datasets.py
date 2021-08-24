@@ -61,7 +61,7 @@ def match_format(fmt, media_types):
     for media_type in media_types:
         if fmt == media_type.get("code"):
             return media_type.get("uri")
-        elif "application/" + fmt == media_type.get("code"):
+        elif fmt and "application/" + fmt == media_type.get("code"):
             return media_type.get("uri")
         elif fmt and fmt.lower() == media_type.get("name").lower():
             return media_type.get("uri")
