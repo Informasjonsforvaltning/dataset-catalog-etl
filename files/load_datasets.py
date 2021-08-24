@@ -16,6 +16,7 @@ with open(args.outputdirectory + 'transformed_datasets.json') as catalogs_file:
 
     total_updated = 0
     total_failed = 0
+    fail_log = {}
     for mongo_id in transformed_json:
         to_be_updated = transformed_json[mongo_id]
         print("Updating ID: " + mongo_id)
@@ -26,6 +27,9 @@ with open(args.outputdirectory + 'transformed_datasets.json') as catalogs_file:
         else:
             total_failed += 1
             print("Update failed: " + mongo_id)
+            fail_log[mongo_id] = transformed_json[mongo_id]
         total_updated += 1
     print("Total number of datasets updated: " + str(total_updated))
     print("Total number of datasets updates failed: " + str(total_failed))
+    with open("load_errors.json", 'w', encoding="utf-8") as err_file:
+        json.dump(fail_log, err_file, ensure_ascii=False, indent=4)

@@ -17,10 +17,11 @@ def transform(ds_file, mt_file):
     failed = {}
     for dataset_key in datasets:
         result = transform_dataset(datasets[dataset_key], media_types)
-        if len(result["transformed"]) > 0:
+        if result["transformed"]:
             transformed_datasets[dataset_key] = result["transformed"]
             transformed_count += 1
-        failed[dataset_key] = result["failed"]
+        if len(result["failed"]) > 0:
+            failed[dataset_key] = result["failed"]
     print("Total number of transformed datasets: " + str(transformed_count))
     with open("transform_errors.json", 'w', encoding="utf-8") as err_file:
         json.dump(failed, err_file, ensure_ascii=False, indent=4)
@@ -43,13 +44,17 @@ def transform_dataset(dataset, media_types):
                 modified_formats.append(modified_fmt)
             else:
                 failed_matches.append(fmt)
+                if fmt:
+                    modified_formats.append(fmt)
         modified_distribution = dist
         modified_distribution["format"] = modified_formats
         modified_distributions.append(modified_distribution)
     transformed_dataset = {}
     if len(modified_distributions) > 0:
         transformed_dataset["distribution"] = modified_distributions
-    return {"transformed": transformed_dataset, "failed": failed_matches}
+        return {"transformed": transformed_dataset, "failed": failed_matches}
+    else:
+        return {"transformed": None, "failed": failed_matches}
 
 
 def match_format(fmt, media_types):
