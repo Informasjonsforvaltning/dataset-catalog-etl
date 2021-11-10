@@ -21,26 +21,36 @@ spec:
     spec:
       containers:
         - env:
-            - name: NAMESPACE
-              valueFrom:
-                secretKeyRef:
-                  name: common-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
-                  key: NAMESPACE
-            - name: MONGO_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
-                  key: MONGO_USERNAME
-            - name: MONGO_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
-                  key: MONGO_PASSWORD
+          - name: NAMESPACE
+            valueFrom:
+              secretKeyRef:
+                name: common-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: NAMESPACE
+          - name: MONGO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: MONGO_USERNAME
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mongo-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+                key: MONGO_PASSWORD
+#          - name: OLD_BASE_URI
+#            valueFrom:
+#              secretKeyRef:
+#                name: commonurl-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+#                key: DATASET_CATALOGUE_COLLECTION_BASE_URI
+#          - name: NEW_BASE_URI
+#            valueFrom:
+#              secretKeyRef:
+#                name: commonurl-{{ required "Missing value NAMESPACE" .Values.NAMESPACE }}
+#                key: DATASET_CATALOG_BASE_URI
           image: {{ required "Missing value DOCKER_IMAGE_NAME" .Values.DOCKER_IMAGE_NAME }}
           imagePullPolicy: Always
           name: dataset-catalog-etl
           resources:
             requests:
-              memory: {{ required "Missing value FDK_DATASET_CATALOG_ETL_MEMORY" .Values.FDK_DATASET_CATALOG_ETL_MEMORY | quote }}
+              memory: {{ required "Missing value DATASET_CATALOG_ETL_MEMORY" .Values.DATASET_CATALOG_ETL_MEMORY | quote }}
       restartPolicy: Always
 status: {}
