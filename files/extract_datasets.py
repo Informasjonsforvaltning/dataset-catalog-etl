@@ -34,7 +34,7 @@ for id_dict in dataset_list:
 
     if len(legalBasisForAccess) == 0 and len(legalBasisForProcessing) == 0 and len(legalBasisForRestriction) == 0:
         skipped_datasets += 1
-    elif accessRights and accessRights.get("uri") and re.search("RESTRICTED$", accessRights):
+    elif accessRights and accessRights.get("uri") and re.search("RESTRICTED$", accessRights.get("uri")):
         _id = id_dict["_id"]
         datasets[_id] = {}
         datasets[_id]["accessRights"] = accessRights
