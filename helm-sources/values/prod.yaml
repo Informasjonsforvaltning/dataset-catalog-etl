@@ -1,3 +1,2 @@
 #DValues for prod environment
 NAMESPACE: prod
-REALLY_OLD_BASE_URI: 'https://registrering-begrep-api.fellesdatakatalog.brreg.no'
