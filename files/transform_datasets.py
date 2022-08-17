@@ -7,18 +7,18 @@ parser.add_argument('-o', '--outputdirectory', help="the path to the directory o
 args = parser.parse_args()
 
 
-def transform(d_file):
-    datasets = openfile(d_file)
-    transformed_datasets = {}
-    for dataset_key in datasets:
-        dataset_publisher = datasets[dataset_key].get("publisher")
-        if iscataloguepublisher(dataset_publisher):
-            transformed_datasets[dataset_key] = datasets[dataset_key]
-            transformed_publisher = dataset_publisher
-            transformed_publisher["uri"] = transformuri(dataset_publisher.get("uri"))
-            transformed_datasets[dataset_key]["publisher"] = transformed_publisher
-    print("Total number of transformed datasets: " + str(len(transformed_datasets)))
-    return transformed_datasets
+def transform(c_file, c_type):
+    collection = openfile(c_file)
+    transformed_collection = {}
+    for key in collection:
+        collection_publisher = collection[key].get("publisher")
+        if iscataloguepublisher(collection_publisher):
+            transformed_collection[key] = collection[key]
+            transformed_publisher = collection_publisher
+            transformed_publisher["uri"] = transformuri(collection_publisher.get("uri"))
+            transformed_collection[key]["publisher"] = transformed_publisher
+    print("Total number of transformed " + c_type + ": " + str(len(transformed_collection)))
+    return transformed_collection
 
 
 def openfile(file_name):
@@ -40,7 +40,10 @@ def transformuri(uri):
 
 datasets_file = args.outputdirectory + "mongo_datasets.json"
 outputfileName = args.outputdirectory + "transformed_datasets.json"
-
-
 with open(outputfileName, 'w', encoding="utf-8") as outfile:
-    json.dump(transform(datasets_file), outfile, ensure_ascii=False, indent=4)
+    json.dump(transform(datasets_file, "datasets"), outfile, ensure_ascii=False, indent=4)
+
+catalogs_file = args.outputdirectory + "mongo_catalogs.json"
+outputfileName = args.outputdirectory + "transformed_catalogs.json"
+with open(outputfileName, 'w', encoding="utf-8") as outfile:
+    json.dump(transform(catalogs_file, "catalogs"), outfile, ensure_ascii=False, indent=4)
