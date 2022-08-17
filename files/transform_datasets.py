@@ -10,9 +10,13 @@ args = parser.parse_args()
 def transform(d_file):
     datasets = openfile(d_file)
     transformed_datasets = {}
-    non_public = {"accessRights": {"uri": "http://publications.europa.eu/resource/authority/access-right/NON_PUBLIC"}}
     for dataset_key in datasets:
-        transformed_datasets[dataset_key] = non_public
+        dataset_publisher = datasets[dataset_key].get("publisher")
+        if iscataloguepublisher(dataset_publisher):
+            transformed_datasets[dataset_key] = datasets[dataset_key]
+            transformed_publisher = dataset_publisher
+            transformed_publisher["uri"] = transformuri(dataset_publisher.get("uri"))
+            transformed_datasets[dataset_key]["publisher"] = transformed_publisher
     print("Total number of transformed datasets: " + str(len(transformed_datasets)))
     return transformed_datasets
 
@@ -20,6 +24,18 @@ def transform(d_file):
 def openfile(file_name):
     with open(file_name) as json_file:
         return json.load(json_file)
+
+
+def iscataloguepublisher(publisher):
+    if publisher:
+        uri = publisher.get("uri")
+        return "catalogue" in uri if uri else False
+    else:
+        return False
+
+
+def transformuri(uri):
+    return uri.replace("catalogue","catalog")
 
 
 datasets_file = args.outputdirectory + "mongo_datasets.json"
