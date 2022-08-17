@@ -16,9 +16,9 @@ skipped_datasets = 0
 
 for id_dict in dataset_list:
     _id = id_dict["_id"]
-    publishers = id_dict.get("publishers")
+    publisher = id_dict.get("publisher")
     datasets[_id] = {}
-    datasets[_id]["publishers"] = publishers
+    datasets[_id]["publisher"] = publisher
 
 print("Total number of datasets: " + str(len(dataset_list)))
 print("Total number of extracted datasets: " + str(len(datasets)))
