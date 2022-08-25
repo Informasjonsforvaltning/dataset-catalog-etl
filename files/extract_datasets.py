@@ -29,7 +29,7 @@ def extract(collection):
             for dists in distribution:
                 dist_uri = dists.get("license", {}).get("uri")
                 if dist_uri:
-                    if any(dist_uri in uri for uri in old_license_urls):
+                    if any(uri in dist_uri for uri in old_license_urls):
                         extracted_dicts[_id] = {}
                         extracted_dicts[_id]["distribution"] = distribution
 
