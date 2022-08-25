@@ -15,15 +15,13 @@ def extract(collection):
     extract_list = []
     if collection == "datasets":
         extract_list = list(db.datasets.find())
-    if collection == "catalogs":
-        extract_list = list(db.catalogs.find())
     extracted_dicts = {}
 
     for id_dict in extract_list:
         _id = id_dict["_id"]
-        publisher = id_dict.get("publisher")
+        distribution = id_dict.get("distribution")
         extracted_dicts[_id] = {}
-        extracted_dicts[_id]["publisher"] = publisher
+        extracted_dicts[_id]["distribution"] = distribution
 
     print("Total number of " + collection + ": " + str(len(extract_list)))
     print("Total number of extracted " + collection + ": " + str(len(extracted_dicts)))
@@ -33,6 +31,3 @@ def extract(collection):
 with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
     json.dump(extract("datasets"), outfile, ensure_ascii=False, indent=4)
 
-
-with open(args.outputdirectory + 'mongo_catalogs.json', 'w', encoding="utf-8") as outfile:
-    json.dump(extract("catalogs"), outfile, ensure_ascii=False, indent=4)

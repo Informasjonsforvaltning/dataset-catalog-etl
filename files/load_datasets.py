@@ -39,6 +39,3 @@ def load(transformed_json, c_type):
 
 with open(args.outputdirectory + 'transformed_datasets.json') as dataset_file:
     load(json.load(dataset_file), "datasets")
-
-with open(args.outputdirectory + 'transformed_catalogs.json') as catalog_file:
-    load(json.load(catalog_file), "catalogs")
