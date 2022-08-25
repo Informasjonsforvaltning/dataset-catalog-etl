@@ -13,6 +13,11 @@ connection = MongoClient(
 def extract(collection):
     db = connection['datasetCatalog']
     extract_list = []
+    old_license_urls = [
+        "creativecommons.org/licenses/by/4.0",
+        "creativecommons.org/publicdomain/zero/1.0",
+        "data.norge.no/nlod"
+    ]
     if collection == "datasets":
         extract_list = list(db.datasets.find())
     extracted_dicts = {}
@@ -20,8 +25,13 @@ def extract(collection):
     for id_dict in extract_list:
         _id = id_dict["_id"]
         distribution = id_dict.get("distribution")
-        extracted_dicts[_id] = {}
-        extracted_dicts[_id]["distribution"] = distribution
+        if distribution:
+            for dists in distribution:
+                dist_uri = dists.get("license", {}).get("uri")
+                if dist_uri:
+                    if any(dist_uri in uri for uri in old_license_urls):
+                        extracted_dicts[_id] = {}
+                        extracted_dicts[_id]["distribution"] = distribution
 
     print("Total number of " + collection + ": " + str(len(extract_list)))
     print("Total number of extracted " + collection + ": " + str(len(extracted_dicts)))
