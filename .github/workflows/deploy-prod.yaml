@@ -3,7 +3,7 @@ name: Build and deploy to prod when merged to master
 on:
   push:
     branches:
-      - chore/hos/no
+      - chore/hos/license-update
 
 jobs:
   build-and-deploy:
