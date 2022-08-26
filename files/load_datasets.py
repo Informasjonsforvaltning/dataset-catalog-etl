@@ -19,11 +19,7 @@ def load(transformed_json, c_type):
     for mongo_id in transformed_json:
         to_be_updated = transformed_json[mongo_id]
         print("Updating ID: " + mongo_id)
-        insert_result = None
-        if c_type == "datasets":
-            insert_result = db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated})
-        elif c_type == "catalogs":
-            insert_result = db.catalogs.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated})
+        insert_result = db.datasets.find_one_and_update({'_id': mongo_id},  {'$set': to_be_updated})
         if insert_result:
             total_updated += 1
             print("Successfully updated: " + mongo_id)

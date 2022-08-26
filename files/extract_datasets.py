@@ -32,6 +32,7 @@ def extract(collection):
                     if any(uri in dist_uri for uri in old_license_urls):
                         extracted_dicts[_id] = {}
                         extracted_dicts[_id]["distribution"] = distribution
+                        break
 
     print("Total number of " + collection + ": " + str(len(extract_list)))
     print("Total number of extracted " + collection + ": " + str(len(extracted_dicts)))

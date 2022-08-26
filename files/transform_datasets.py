@@ -11,6 +11,7 @@ old_license_urls = [
     "data.norge.no/nlod"
 ]
 
+
 def transform(c_file, c_type):
     collection = openfile(c_file)
     transformed_collection = {}
@@ -52,4 +53,3 @@ datasets_file = args.outputdirectory + "mongo_datasets.json"
 outputfileName = args.outputdirectory + "transformed_datasets.json"
 with open(outputfileName, 'w', encoding="utf-8") as outfile:
     json.dump(transform(datasets_file, "datasets"), outfile, ensure_ascii=False, indent=4)
-
