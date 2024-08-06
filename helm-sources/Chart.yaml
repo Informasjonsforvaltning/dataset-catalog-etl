@@ -1,6 +1,0 @@
-apiVersion: v1
-appVersion: "1.0"
-description: Config for Dataset catalog etl
-name: dataset-catalog-etl
-version: 0.1.0
-home: https://github.com/Informasjonsforvaltning/dataset-catalog-etl

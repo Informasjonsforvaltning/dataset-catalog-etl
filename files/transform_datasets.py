@@ -7,43 +7,32 @@ parser.add_argument('-o', '--outputdirectory', help="the path to the directory o
 args = parser.parse_args()
 
 
-def transform(inputfile):
-
-    datasets = openfile(inputfile)
+def transform(datasets_file, concepts_file):
+    datasets = openfile(datasets_file)
+    concepts_meta = openfile(concepts_file)
     transformed_datasets = {}
-    count_objective = 0
-    print("Total number of extracted datasets: " + str(len(datasets)))
+    count_modified = 0
     for dataset_key in datasets:
-        transformed_description = None
-        if datasets[dataset_key].get("objective"):
-            count_objective += 1
-            transformed_description = desc_dict(datasets[dataset_key])
-        transformed_datasets[dataset_key] = {"description": transformed_description}
-    print("Number of datasets w/objectives found: " + str(count_objective))
+        concepts = datasets[dataset_key]["concepts"]
+        modified_concepts = []
+        for concept in concepts:
+            if concept["identifier"] is not None:
+                old_uri = concept["uri"]
+                fdk_id = old_uri.split("/")[-1]
+                modified_concept = concept
+                new_concept_uri = concepts_meta.get(fdk_id)
+                if new_concept_uri is not None:
+                    modified_concept["uri"] = concepts_meta[fdk_id]
+                else:
+                    modified_concept["uri"] = concept["identifier"]
+                modified_concepts.append(modified_concept)
+                count_modified += 1
+                print("Old concept uri: " + old_uri + " -------- " + "New concept uri: " + modified_concept["uri"])
+            else:
+                modified_concepts.append(concept)
+        transformed_datasets[dataset_key] = datasets[dataset_key]
+        transformed_datasets[dataset_key]["concepts"] = modified_concepts
     return transformed_datasets
-
-
-def desc_dict(str_dict):
-    description = str_dict.get("description")
-    description = description if description else {}
-    return_dict = description
-    for key in str_dict["objective"]:
-        if key == "en":
-            connection_string = """
-
----
-
-Objective: """
-        else:
-            connection_string = """
-
----
-
-Formål: """
-        description_key_str = description.get(key)
-        description_key_str = description_key_str if description_key_str else ""
-        return_dict[key] = description_key_str + connection_string + str_dict["objective"][key]
-    return return_dict
 
 
 def openfile(file_name):
@@ -51,9 +40,11 @@ def openfile(file_name):
         return json.load(json_file)
 
 
-inputfileName = args.outputdirectory + "mongo_datasets.json"
+datasetfileName = args.outputdirectory + "mongo_datasets.json"
+conceptfileName = args.outputdirectory + "mongo_concepts.json"
 outputfileName = args.outputdirectory + "datasets_transformed.json"
 
 
 with open(outputfileName, 'w', encoding="utf-8") as outfile:
-    json.dump(transform(inputfileName), outfile, ensure_ascii=False, indent=4)
+    json.dump(transform(datasetfileName, conceptfileName), outfile, ensure_ascii=False, indent=4)
+
