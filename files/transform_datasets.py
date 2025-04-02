@@ -68,12 +68,11 @@ def transform_distribution(dist):
 
 def transform(datasets_file):
     datasets = openfile(datasets_file)
-    transformed_datasets = {}
+    transformed_datasets = []
 
-    for dataset_key in datasets:
+    for old_dataset in datasets:
         transformed_dataset = {}
-        old_dataset = datasets[dataset_key]
-        transformed_dataset["id"] = old_dataset["id"]
+        transformed_dataset["_id"] = old_dataset["_id"]
         transformed_dataset["catalogId"] = old_dataset["catalogId"]
 
         if old_dataset.get("uri"):
@@ -377,7 +376,7 @@ def transform(datasets_file):
         if old_dataset.get("seriesDatasetOrder") is not None:
             transformed_dataset["seriesDatasetOrder"] = old_dataset.get("seriesDatasetOrder")
 
-        transformed_datasets[dataset_key] = transformed_dataset
+        transformed_datasets.append(transformed_dataset)
 
     return transformed_datasets
 
