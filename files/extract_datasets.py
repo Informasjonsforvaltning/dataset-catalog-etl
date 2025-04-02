@@ -2,6 +2,15 @@ import json
 import os
 from pymongo import MongoClient
 import argparse
+from datetime import datetime
+
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-o',
@@ -14,7 +23,5 @@ connection = MongoClient(
 
 db = connection["datasetCatalog"]
 
-print("Total number of extracted datasets: " + str(len(datasets)))
-
 with open(args.outputdirectory + 'mongo_datasets.json', 'w', encoding="utf-8") as outfile:
-    json.dump(list(db.datasets.find()), outfile, ensure_ascii=False, indent=4)
+    json.dump(list(db.datasets.find()), outfile, cls=DateTimeEncoder, ensure_ascii=False, indent=4)

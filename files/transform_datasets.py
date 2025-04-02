@@ -154,8 +154,8 @@ def transform(datasets_file):
             transformed_dataset["landingPage"] = old_dataset.get("landingPage")
 
         if old_dataset.get("theme") is not None:
-            dataThemes = transform_theme(old_dataset, false)
-            losThemes = transform_theme(old_dataset, true)
+            dataThemes = transform_theme(old_dataset.get("theme"), False)
+            losThemes = transform_theme(old_dataset.get("theme"), True)
             if len(dataThemes) > 0:
                 transformed_dataset["euDataTheme"] = dataThemes
             if len(losThemes) > 0:
